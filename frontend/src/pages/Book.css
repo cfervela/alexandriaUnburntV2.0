@@ -1,0 +1,161 @@
+.container {
+  margin-top: 5vh;
+}
+
+.book {
+  background-color: #97a3c2;
+  border-radius: 10px;
+  color: #2B3349;
+  padding: 2rem;
+  box-shadow: 0 8px 32px #3d4a6b;
+}
+
+.book img {
+  box-shadow: 0 8px 32px #2B3349 !important;
+  transition: transform 0.5s ease;
+}
+
+img:hover {
+  transform: scale(1.05);
+}
+
+h1{
+  background-color: #c0c7da;
+  border-radius: 12px;
+  display: inline-block;
+  padding: 0 0.4rem;
+}
+
+.genre-classic {
+  background: #fdf3e3;
+  color: #b45309;
+}
+
+.genre-fantasy {
+  background: #ede9fe;
+  color: #6d28d9;
+}
+
+.genre-sci-fi {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.genre-contemporary {
+  background: #fce7f3;
+  color: #be185d;
+}
+
+.genre-horror     {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.genre-mystery {
+  background: #f1f5f9;
+  color: #334155;
+}
+
+.genre-thriller {
+  background: #fef9c3;
+  color: #854d0e;
+}
+
+.genre-history {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+/* Go BACK BOOK BUTTON */
+.add-btn {
+  white-space: nowrap;
+  position: absolute;
+  right: 1.5rem;
+}
+
+.fab-btn {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: #2B3349;
+  color: #F6724B ;
+  border: none;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  z-index: 1000;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.fab-btn:hover {
+  background-color: #F6724B;
+  color: #FDD0BB;
+  transform: scale(1.1);
+}
+
+.cart{
+  background-color: #FDD0BB;
+  color: #F6724B ;
+  border: none;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.cart:hover {
+  background-image: linear-gradient(
+    to right,
+    rgba(246, 114, 75, 1),
+    rgba(252, 138, 85, 1),
+    rgba(143, 78, 81, 1),
+    rgba(246, 114, 75, 1)
+  );
+  background-size: 200% auto;
+  animation: gradientAnimation 3s linear infinite;
+  color: #FDD0BB;
+}
+
+@keyframes gradientAnimation {
+  0%{
+    background-position: 200% 50%;
+  }
+  100%{
+    background-position: 0% 50%;
+  }
+}
+
+/* Mensaje de confirmación */
+.mensaje-agregado {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  background: linear-gradient(135deg, #28a745, #20c997);
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+  animation: slideInRight 0.4s ease-out;
+  z-index: 2000;
+  font-weight: 600;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(300px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

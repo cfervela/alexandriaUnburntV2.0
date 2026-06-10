@@ -1,0 +1,379 @@
+/* GRID */
+.books-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem 0 2rem;
+}
+
+/* ADD BUTTON */
+.fab-btn {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: #2B3349;
+  color: #F6724B ;
+  border: none;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  z-index: 1000;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.fab-btn:hover {
+  background-color: #F6724B;
+  color: #FDD0BB;
+  transform: scale(1.1);
+}
+
+/* CARD */
+.book-card {
+  background: #c0c7da !important;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.book-card:hover{
+  transform: scale(1.05);
+}
+
+/* COVER */
+.book-cover {
+  height: 240px;
+  width: 100%;
+  background: #97a3c2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.book-cover img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 4px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+}
+
+.cover-placeholder {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #F6724B, #FC8A55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: white;
+}
+
+/* INFO */
+.book-info {
+  width: 100%;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  flex: 1;
+  box-sizing: border-box;
+}
+
+.book-title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0;
+  color: #2B3349;
+}
+.book-author {
+  font-size: 0.85rem;
+  color: #2B3349 !important;
+  margin: 0;
+}
+.book-genre {
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 20px;
+  width: fit-content;
+  font-weight: 500;
+}
+
+.genre-classic {
+  background: #fdf3e3;
+  color: #b45309;
+}
+
+.genre-fantasy {
+  background: #ede9fe;
+  color: #6d28d9;
+}
+
+.genre-romance {
+  background: #fce7f3;
+  color: #be185d;
+}
+
+.genre-contemporary {
+  background: #e0e7ff;
+  color: #3730a3;
+}
+
+.genre-history {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.genre-ya {
+  background: #fef08a;
+  color: #713f12;
+}
+
+.genre-default {
+  background: #e8f4fd;
+  color: #2979ff;
+}
+
+.book-description {
+  font-size: 0.82rem;
+  color: #2B3349;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.book-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+.book-price {
+  font-weight: 700;
+  color: #2B3349;
+}
+.book-stock {
+  font-size: 0.8rem;
+  color: #2B3349;
+}
+
+/* ACTIONS */
+.book-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+.btn-info {
+  flex: 1;
+  padding: 0.4rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.btn-info {
+  background: #c7d9de;
+  color: #476f79;
+}
+
+
+.btn-info:hover{
+  background: #476f79;
+  color: #c7d9de;
+}
+
+/* EMPTY STATE */
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem;
+  color: #2B3349;
+  font-size: 1rem;
+}
+.empty-state i {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+/* MODAL */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+
+.modal-box {
+  background: #97a3c2 !important;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 560px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  animation: slideUp 0.25s ease;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #2B3349;
+}
+
+.modal-header h5 {
+  margin: 0;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #2B3349;
+  padding: 0.25rem;
+}
+
+.modal-close:hover {
+  color: #FC5574;
+}
+
+.modal-body {
+  padding: 1.5rem;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #2B3349;
+}
+
+/* ANIMATIONS */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+@media (max-width: 767px) and (min-width: 576px) {
+  .books-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 575px) {
+  .books-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .fab-btn {
+    bottom: 1rem;
+    right: 1rem;
+    width: 48px;
+    height: 48px;
+    font-size: 1.25rem;
+  }
+
+  .modal-box {
+    margin: 0 1rem;
+    width: calc(100% - 2rem);
+  }
+}
+
+/* FILTER BUTTONS */
+
+.genre-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.genre-filters .btn {
+  margin-left: 0 !important;
+}
+
+.btn-genre.active {
+    border: 2px solid currentColor;
+    font-weight: 600;
+}
+
+.btn-genre:hover, .btn-genre:active, .btn-genre.active {
+    opacity: 0.8;
+}
+
+
+.classic{
+  background: #fdf3e3;
+  color: #b45309;
+}
+
+.fantasy {
+  background: #ede9fe;
+  color: #6d28d9;
+}
+
+.romance {
+  background: #fce7f3;
+  color: #be185d;
+}
+
+.contemporary {
+  background: #e0e7ff;
+  color: #3730a3;
+}
+
+.history {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.ya {
+  background: #fef08a;
+  color: #713f12;
+}
+
+.all {
+  background: #e8f4fd;
+  color: #2979ff;
+}
+
+.classic.active { background: #fdf3e3; color: #b45309; }
+.fantasy.active { background: #ede9fe; color: #6d28d9; }
+.romance.active { background: #fce7f3; color: #be185d; }
+.contemporary.active { background: #e0e7ff; color: #3730a3; }
+.history.active { background: #d1fae5; color: #065f46; }
+.ya.active { background: #fef08a; color: #713f12; }
+.all.active { background: #e8f4fd; color: #2979ff; }
