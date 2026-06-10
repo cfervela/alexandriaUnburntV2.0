@@ -1,37 +1,120 @@
 .Books {
-    padding: 20px;
+    padding: 30px;
 }
 
-.book-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
+.Books h1 {
+    margin-bottom: 20px;
 }
 
-.book {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-}
-
-.book img {
+.book-table {
     width: 100%;
-    max-width: 150px;
-    height: 220px;
-    object-fit: cover;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.book-table th {
+    background-color: #f4f4f4;
+    text-align: left;
+    padding: 12px 16px;
+    font-weight: 600;
+    border-bottom: 2px solid #ddd;
+    color: #444;
+}
+
+.book-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #eee;
+    color: #333;
+}
+
+.book-table tbody tr:hover {
+    background-color: #f9f9f9;
 }
 
 .add-btn {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 55px;
-    height: 55px;
-    border-radius: 50%;
-    font-size: 28px;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    margin-top: 20px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: #2B3349;
+    color: #F6724B;
+    border: none;
+    font-size: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.add-btn:hover{
+  background-color: #F6724B;
+  color: #FDD0BB;
+  transform: scale(1.1);
+}
+
+.edit-btn{
+    color: green;
+    background-color:#f4f4f4;
+    border: none;
+    border-radius: 2px;
+    font-size: 1.2rem;
+    padding: 5px;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.edit-btn:hover{
+  background-color: green;
+  color: greenyellow;
+  transform: scale(1.2);
+}
+
+.delete-btn{
+    color: darkred;
+    background-color:#f4f4f4;
+    border: none;
+    border-radius: 2px;
+    font-size: 1.2rem;
+    padding: 5px;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.delete-btn:hover{
+  background-color: darkred;
+  color: red;
+  transform: scale(1.2);
+}
+
+.pagination {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 20px;
+    align-items: center;
+}
+
+.page-btn {
+    padding: 6px 12px;
+    border: 1px solid #ddd;
+    background: #fff;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.page-btn:hover:not(:disabled) {
+    background: #2B3349;
+    color: white;
+}
+
+.page-btn.active {
+    background: #2B3349;
+    color: white;
+    border-color: #2B3349;
+}
+
+.page-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
 }
