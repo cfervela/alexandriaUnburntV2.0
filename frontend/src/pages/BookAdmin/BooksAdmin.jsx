@@ -2,10 +2,21 @@ import './BooksAdmin.css'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router'
+import { Outlet } from "react-router"
+
 
 const BooksAdmin = () => {
     const [books, setBooks] = useState([])
+    const [loading, setLoading] = useState(false)
+    const [successMsg, setSuccessMsg] = useState('')
+    const [errorMsg, setErrorMsg] = useState('')
     const navigate = useNavigate()
+
+    const handleUpdateSuccess = (msg) => {
+        setSuccessMsg(msg)
+        setTimeout(() => setSuccessMsg(''), 3000)
+    }
+
 
     useEffect(() => {
         const fetchAllBooks = async () => {
@@ -19,12 +30,21 @@ const BooksAdmin = () => {
         fetchAllBooks()
     }, [])
 
-    const handleDelete = async (id)=>{
-        try{
-            await axios.delete("http://localhost:8800/bookadmin/"+id)
-            window.location.reload()
-        }catch(err){
+    const handleDelete = async (id) => {
+        setErrorMsg('')
+        setSuccessMsg('')
+        setLoading(true)
+        try {
+            await axios.delete("http://localhost:8800/bookadmin/" + id)
+            setBooks(prev => prev.filter(b => b.isbn !== id))
+            setSuccessMsg('Book deleted successfully.')
+            setTimeout(() => setSuccessMsg(''), 3000)
+        } catch (err) {
+            setErrorMsg('Failed to delete book. Please try again.')
+            setTimeout(() => setErrorMsg(''), 3000)
             console.log(err)
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -37,6 +57,21 @@ const BooksAdmin = () => {
     return (
         <div className="Books">
             <h1>Books</h1>
+            {successMsg && (
+                <div className="alert-success">
+                    <i className="bi bi-check-circle me-2"></i>{successMsg}
+                </div>
+            )}
+            {errorMsg && (
+                <div className="alert-error">
+                    <i className="bi bi-exclamation-circle me-2"></i>{errorMsg}
+                </div>
+            )}
+            {loading && (
+                <div className="alert-loading">
+                    <i className="bi bi-hourglass-split me-2"></i>Processing…
+                </div>
+            )}
             <table className="book-table">
                 <thead>
                     <tr>
@@ -102,6 +137,7 @@ const BooksAdmin = () => {
             <button className="add-btn" onClick={() => navigate('/booksAdmin/addBook')}>
                 <i className="bi bi-plus-circle"></i>
             </button>
+            <Outlet context={{ onSuccess: handleUpdateSuccess }} />
         </div>
     )
 }

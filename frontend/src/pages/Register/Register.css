@@ -1,0 +1,162 @@
+/* ── Page wrapper ── */
+.register-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f9fa;
+}
+
+/* ── Card ── */
+.register {
+  max-width: 978px;
+  width: 100vw;
+  display: flex;
+  border: 1px solid #e9ecef;
+  border-radius: 5px;
+  background-color: white;
+}
+
+.register span {
+  color: #adb5bd;
+}
+
+/* ── Left column ── */
+.register .col-1 {
+  margin: auto;
+  padding: 3em 0;
+}
+
+/* ── Role tabs ── */
+.role-tabs {
+  display: flex;
+  gap: 8px;
+  margin: 1.25em 0 0.5em;
+  max-width: 320px;
+}
+
+.tab {
+  flex: 1;
+  padding: 0.55em 1em;
+  border: 1px solid #e9ecef;
+  border-radius: 4px;
+  background: transparent;
+  color: #6c757d;
+  font-size: 0.9em;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.tab:hover {
+  background: #f1f3f5;
+}
+
+.tab--active {
+  background: #003049;
+  color: #e9ecef;
+  border-color: #003049;
+}
+
+/* ── Form ── */
+#form {
+  max-width: 320px;
+  width: 100vw;
+  margin: 1.5em auto;
+}
+
+#form > input,
+#form > .btn {
+  border: 1px solid #e9ecef;
+  padding: 0.9em 1em;
+}
+
+#form > input:focus {
+  outline: none;
+  border-color: #003049;
+  box-shadow: 0 0 0 2px rgba(0, 48, 73, 0.15);
+}
+
+/* ── Role-specific fieldset ── */
+.role-fields {
+  border: 1px solid #e9ecef;
+  border-radius: 4px;
+  padding: 1em 1em 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.role-fields legend {
+  font-size: 0.78em;
+  color: #6c757d;
+  padding: 0 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.role-fields input,
+.role-fields select {
+  border: 1px solid #e9ecef;
+  padding: 0.9em 1em;
+  width: 100%;
+  font-size: 1em;
+  margin-top: 0.5em;
+  border-radius: 4px;
+}
+
+.role-fields input:focus,
+.role-fields select:focus {
+  outline: none;
+  border-color: #003049;
+  box-shadow: 0 0 0 2px rgba(0, 48, 73, 0.15);
+}
+
+/* ── Validation messages ── */
+.field-error {
+  font-size: 0.78em;
+  color: #c0392b;
+  margin: -0.25em 0 0.25em;
+}
+
+.server-error {
+  font-size: 0.85em;
+  color: #c0392b;
+  background: #fdecea;
+  padding: 0.6em 0.9em;
+  border-radius: 4px;
+  margin-bottom: 0.5em;
+}
+
+/* ── Submit button ── */
+.btn {
+  background-color: #003049;
+  color: #e9ecef;
+  font-size: 1em;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  transition: opacity 0.15s;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ── Layout helpers ── */
+.flex {
+  display: flex;
+  gap: 1em;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+/* ── Right column (image slot) ── */
+.register .col-2 img {
+  width: 480px;
+  height: 100%;
+  object-fit: cover;
+  align-self: flex-end;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
