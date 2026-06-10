@@ -90,6 +90,207 @@ app.put('/bookadmin/:isbn', (req, res) => {
     })
 })
 
+app.post('/auth/register', (req, res) => {
+    const { name, email, password, role, address, phone, permissionLevel } = req.body;
+
+    if (!name || !email || !password || !role) {
+        return res.status(400).json({ message: 'Name, email, password and role are required' });
+    }
+
+    // Check if email already exists
+    db.query('SELECT userId FROM User WHERE email = ?', [email], (err, rows) => {
+        if (err) return res.status(500).json({ message: err.sqlMessage });
+        if (rows.length > 0) return res.status(409).json({ message: 'Email already registered' });
+
+        db.beginTransaction((err) => {
+            if (err) return res.status(500).json({ message: err.sqlMessage });
+
+            // 1. Insert into User
+            const userQ = 'INSERT INTO User (name, email, password) VALUES (?, ?, ?)';
+            db.query(userQ, [name, email, password], (err, result) => {
+                if (err) {
+                    return db.rollback(() =>
+                        res.status(500).json({ message: err.sqlMessage })
+                    );
+                }
+
+                const newUserId = result.insertId;
+
+                // 2. Insert into Client or Admin
+                if (role === 'client') {
+                    if (!address || !phone) {
+                        return db.rollback(() =>
+                            res.status(400).json({ message: 'Address and phone are required for clients' })
+                        );
+                    }
+                    const clientQ = 'INSERT INTO Client (Address, Phone, UseruserId) VALUES (?, ?, ?)';
+                    db.query(clientQ, [address, phone, newUserId], (err) => {
+                        if (err) {
+                            return db.rollback(() =>
+                                res.status(500).json({ message: err.sqlMessage })
+                            );
+                        }
+                        commitAndRespond(newUserId, name, email, role);
+                    });
+
+                } else if (role === 'admin') {
+                    if (!permissionLevel) {
+                        return db.rollback(() =>
+                            res.status(400).json({ message: 'Permission level is required for admins' })
+                        );
+                    }
+                    const adminQ = 'INSERT INTO Admin (permissionLevel, UseruserId) VALUES (?, ?)';
+                    db.query(adminQ, [permissionLevel, newUserId], (err) => {
+                        if (err) {
+                            return db.rollback(() =>
+                                res.status(500).json({ message: err.sqlMessage })
+                            );
+                        }
+                        commitAndRespond(newUserId, name, email, role);
+                    });
+
+                } else {
+                    return db.rollback(() =>
+                        res.status(400).json({ message: 'Invalid role' })
+                    );
+                }
+            });
+
+            function commitAndRespond(userId, name, email, role) {
+                db.commit((err) => {
+                    if (err) {
+                        return db.rollback(() =>
+                            res.status(500).json({ message: err.sqlMessage })
+                        );
+                    }
+                    const token = Buffer.from(`${userId}:${Date.now()}`).toString('base64');
+                    return res.status(201).json({
+                        token,
+                        user: { userId, name, email, role },
+                    });
+                });
+            }
+        });
+    });
+});
+
+// GET all users with their role (client or admin)
+app.get('/users', (req, res) => {
+    const q = `
+        SELECT u.userId, u.name, u.email,
+               CASE 
+                 WHEN a.UseruserId IS NOT NULL THEN 'admin'
+                 ELSE 'client'
+               END AS role,
+               a.permissionLevel,
+               c.Address, c.Phone
+        FROM User u
+        LEFT JOIN Admin a ON a.UseruserId = u.userId
+        LEFT JOIN Client c ON c.UseruserId = u.userId
+    `;
+    db.query(q, (err, data) => {
+        if (err) return res.status(500).json({ message: err.sqlMessage });
+        return res.json(data);
+    });
+});
+
+app.delete('/users/:id', (req, res) => {
+    const id = req.params.id;
+
+    db.beginTransaction((err) => {
+        if (err) return res.status(500).json({ message: err.sqlMessage });
+
+        db.query('DELETE FROM Admin WHERE UseruserId = ?', [id], (err) => {
+            if (err) {
+                console.error('DELETE Admin error:', err.sqlMessage);
+                return db.rollback(() => res.status(500).json({ message: err.sqlMessage }));
+            }
+
+            db.query('DELETE FROM Client WHERE UseruserId = ?', [id], (err) => {
+                if (err) {
+                    console.error('DELETE Client error:', err.sqlMessage);
+                    return db.rollback(() => res.status(500).json({ message: err.sqlMessage }));
+                }
+
+                db.query('DELETE FROM Message WHERE UseruserId = ?', [id], (err) => {
+                    if (err) {
+                        console.error('DELETE Message error:', err.sqlMessage);
+                        return db.rollback(() => res.status(500).json({ message: err.sqlMessage }));
+                    }
+
+                    db.query('DELETE FROM User WHERE userId = ?', [id], (err) => {
+                        if (err) {
+                            console.error('DELETE User error:', err.sqlMessage);
+                            return db.rollback(() => res.status(500).json({ message: err.sqlMessage }));
+                        }
+
+                        db.commit((err) => {
+                            if (err) return db.rollback(() => res.status(500).json({ message: err.sqlMessage }));
+                            return res.json({ message: 'User deleted' });
+                        });
+                    });
+                });
+            });
+        });
+    });
+});
+
+app.get('/users/:id', (req, res) => {
+    const q = `
+        SELECT u.userId, u.name, u.email,
+               CASE WHEN a.UseruserId IS NOT NULL THEN 'admin' ELSE 'client' END AS role,
+               a.permissionLevel, c.Address, c.Phone
+        FROM User u
+        LEFT JOIN Admin a ON a.UseruserId = u.userId
+        LEFT JOIN Client c ON c.UseruserId = u.userId
+        WHERE u.userId = ?
+    `;
+    db.query(q, [req.params.id], (err, data) => {
+        if (err) return res.status(500).json({ message: err.sqlMessage });
+        if (!data[0]) return res.status(404).json({ message: 'User not found' });
+        return res.json(data[0]);
+    });
+});
+
+app.put('/users/:id', (req, res) => {
+    const { name, email, role, Address, Phone, permissionLevel } = req.body 
+    const id = req.params.id
+
+    db.beginTransaction((err) => {
+        if (err) return res.status(500).json({ message: err.sqlMessage })
+
+        db.query('UPDATE User SET name=?, email=? WHERE userId=?', [name, email, id], (err) => {
+            if (err) return db.rollback(() => res.status(500).json({ message: err.sqlMessage }))
+
+            if (role === 'client') {
+                db.query(
+                    'UPDATE Client SET Address=?, Phone=? WHERE UseruserId=?',
+                    [Address, Phone, id],
+                    (err) => {
+                        if (err) return db.rollback(() => res.status(500).json({ message: err.sqlMessage }))
+                        db.commit((err) => {
+                            if (err) return db.rollback(() => res.status(500).json({ message: err.sqlMessage }))
+                            return res.json({ message: 'User updated' })
+                        })
+                    }
+                )
+            } else if (role === 'admin') {
+                db.query(
+                    'UPDATE Admin SET permissionLevel=? WHERE UseruserId=?',
+                    [permissionLevel, id],
+                    (err) => {
+                        if (err) return db.rollback(() => res.status(500).json({ message: err.sqlMessage }))
+                        db.commit((err) => {
+                            if (err) return db.rollback(() => res.status(500).json({ message: err.sqlMessage }))
+                            return res.json({ message: 'User updated' })
+                        })
+                    }
+                )
+            }
+        })
+    })
+})
+
 app.listen(8800, ()=>{
     console.log("Connected to backend");
 })

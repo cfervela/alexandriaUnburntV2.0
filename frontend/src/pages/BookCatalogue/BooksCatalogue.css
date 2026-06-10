@@ -325,13 +325,10 @@
   margin-left: 0 !important;
 }
 
-.btn-genre.active {
-    border: 2px solid currentColor;
-    font-weight: 600;
-}
-
-.btn-genre:hover, .btn-genre:active, .btn-genre.active {
-    opacity: 0.8;
+.btn-genre:hover, .btn-genre.active {
+  opacity: 1;
+  transform: scale(1.04);
+  transition: transform 0.15s;
 }
 
 
@@ -370,10 +367,10 @@
   color: #2979ff;
 }
 
-.classic.active { background: #fdf3e3; color: #b45309; }
-.fantasy.active { background: #ede9fe; color: #6d28d9; }
-.romance.active { background: #fce7f3; color: #be185d; }
-.contemporary.active { background: #e0e7ff; color: #3730a3; }
-.history.active { background: #d1fae5; color: #065f46; }
-.ya.active { background: #fef08a; color: #713f12; }
-.all.active { background: #e8f4fd; color: #2979ff; }
+.btn-genre.classic:hover, .btn-genre.classic.active { background: #fdf3e3; color: #b45309; }
+.btn-genre.fantasy:hover, .btn-genre.fantasy.active { background: #ede9fe; color: #6d28d9; }
+.btn-genre.romance:hover, .btn-genre.romance.active { background: #fce7f3; color: #be185d; }
+.btn-genre.contemporary:hover, .btn-genre.contemporary.active { background: #e0e7ff; color: #3730a3; }
+.btn-genre.history:hover, .btn-genre.history.active { background: #d1fae5; color: #065f46; }
+.btn-genre.ya:hover, .btn-genre.ya.active { background: #fef08a; color: #713f12; }
+.btn-genre.all:hover, .btn-genre.all.active { background: #e8f4fd; color: #2979ff; }

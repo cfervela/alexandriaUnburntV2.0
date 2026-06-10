@@ -1,15 +1,15 @@
-import { useState, useRef, useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router'
+import { useRef, useState } from 'react'
+import { useNavigate, useOutletContext } from 'react-router'
 import { Button, Modal, Form } from 'react-bootstrap'
 import axios from 'axios'
 
-function Update() {
+function Add() {
     const navigate = useNavigate()
-    const { isbn } = useParams()
     const handleClose = () => navigate('/booksAdmin')
+    const { onSuccess } = useOutletContext()
+    const [errorMsg, setErrorMsg] = useState('')
 
-    const [book, setBook] = useState({})
-
+    const isbnRef = useRef()
     const titleRef = useRef()
     const authorRef = useRef()
     const descriptionRef = useRef()
@@ -18,21 +18,11 @@ function Update() {
     const stockRef = useRef()
     const genreIDRef = useRef()
 
-    useEffect(() => {
-        const fetchBook = async () => {
-            try {
-                const res = await axios.get(`http://localhost:8800/bookadmin/${isbn}`)
-                setBook(res.data)
-            } catch(err) {
-                console.log(err)
-            }
-        }
-        fetchBook()
-    }, [isbn])
-
     const handleSubmit = async () => {
+        setErrorMsg('')
         try {
-            await axios.put(`http://localhost:8800/bookadmin/${isbn}`, {
+            await axios.post("http://localhost:8800/bookadmin", {
+                isbn: isbnRef.current.value,
                 title: titleRef.current.value,
                 author: authorRef.current.value,
                 description: descriptionRef.current.value,
@@ -41,62 +31,68 @@ function Update() {
                 stock: stockRef.current.value,
                 genreID: genreIDRef.current.value,
             })
+            onSuccess?.('Book added successfully.')
             handleClose()
-            window.location.reload()
         } catch(err) {
-            console.log("Error:", err.response?.data || err.message)
+            setErrorMsg('Failed to add book. Please try again.')
+            console.log(err)
         }
     }
 
     return (
         <Modal show={true} onHide={handleClose} centered size="lg">
             <Modal.Header closeButton>
-                <Modal.Title>Update Book</Modal.Title>
+                <Modal.Title>Add New Book</Modal.Title>
             </Modal.Header>
 
             <Modal.Body>
+                {errorMsg && (
+                    <div className="alert-error">
+                        <i className="bi bi-exclamation-circle me-2"></i>{errorMsg}
+                    </div>
+                )}
                 <Form>
                     <Form.Group className="mb-3">
                         <Form.Label>ISBN</Form.Label>
-                        <Form.Control value={book.isbn || ''} disabled />
+                        <Form.Control ref={isbnRef} placeholder="Enter ISBN" />
                     </Form.Group>
                     <Form.Group className="mb-3">
                         <Form.Label>Title</Form.Label>
-                        <Form.Control ref={titleRef} defaultValue={book.title} key={book.title} />
+                        <Form.Control ref={titleRef} placeholder="Enter title" />
                     </Form.Group>
                     <Form.Group className="mb-3">
                         <Form.Label>Author</Form.Label>
-                        <Form.Control ref={authorRef} defaultValue={book.author} key={book.author} />
+                        <Form.Control ref={authorRef} placeholder="Enter author" />
                     </Form.Group>
                     <Form.Group className="mb-3">
                         <Form.Label>Description</Form.Label>
-                        <Form.Control ref={descriptionRef} as="textarea" defaultValue={book.description} key={book.description} />
+                        <Form.Control ref={descriptionRef} as="textarea" placeholder="Enter description" />
                     </Form.Group>
                     <Form.Group className="mb-3">
                         <Form.Label>Publisher</Form.Label>
-                        <Form.Control ref={publisherRef} defaultValue={book.publisher} key={book.publisher} />
+                        <Form.Control ref={publisherRef} placeholder="Enter publisher" />
                     </Form.Group>
                     <Form.Group className="mb-3">
                         <Form.Label>Price</Form.Label>
-                        <Form.Control ref={priceRef} type="number" defaultValue={book.price} key={book.price} />
+                        <Form.Control ref={priceRef} type="number" placeholder="Enter price" />
                     </Form.Group>
                     <Form.Group className="mb-3">
                         <Form.Label>Stock</Form.Label>
-                        <Form.Control ref={stockRef} type="number" defaultValue={book.stock} key={book.stock} />
+                        <Form.Control ref={stockRef} type="number" placeholder="Enter stock" />
                     </Form.Group>
                     <Form.Group className="mb-3">
                         <Form.Label>Genre ID</Form.Label>
-                        <Form.Control ref={genreIDRef} type="number" defaultValue={book.genreID} key={book.genreID} />
+                        <Form.Control ref={genreIDRef} type="number" placeholder="Enter genre ID" />
                     </Form.Group>
                 </Form>
             </Modal.Body>
 
             <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>Cancel</Button>
-                <Button variant="primary" onClick={handleSubmit}>Update Book</Button>
+                <Button variant="primary" onClick={handleSubmit}>Add Book</Button>
             </Modal.Footer>
         </Modal>
     )
 }
 
-export default Update
+export default Add

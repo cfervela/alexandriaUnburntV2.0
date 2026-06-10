@@ -32,20 +32,23 @@
 }
 
 .add-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 20px;
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    background-color: #2B3349;
-    color: #F6724B;
-    border: none;
-    font-size: 1.5rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    cursor: pointer;
-    transition: background-color 0.2s, transform 0.2s;
+    position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: #2B3349;
+  color: #F6724B ;
+  border: none;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  z-index: 1000;
+  transition: background-color 0.2s, transform 0.2s;
 }
 
 .add-btn:hover{
@@ -117,4 +120,31 @@
 .page-btn:disabled {
     opacity: 0.4;
     cursor: not-allowed;
+}
+
+.alert-success {
+    background: #d1fae5;
+    color: #065f46;
+    padding: 10px 16px;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+.alert-error {
+    background: #fee2e2;
+    color: #991b1b;
+    padding: 10px 16px;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+.alert-loading {
+    background: #e0e7ff;
+    color: #3730a3;
+    padding: 10px 16px;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
 }
