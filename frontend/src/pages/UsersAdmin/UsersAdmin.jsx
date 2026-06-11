@@ -8,6 +8,8 @@ const UsersAdmin = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const [editUser, setEditUser] = useState(null)   // null = closed
     const [serverError, setServerError] = useState('')
+    const [successMsg, setSuccessMsg] = useState('')
+    const [errorMsg, setErrorMsg] = useState('')
     //const navigate = useNavigate()
 
     // ── Guard ──
@@ -30,10 +32,18 @@ const UsersAdmin = () => {
 
     // ── Delete ──
     const handleDelete = async (id) => {
+        setErrorMsg('')
+        setSuccessMsg('')
         try {
             await axios.delete(`http://localhost:8800/users/${id}`)
             setUsers(users.filter(u => u.userId !== id))
-        } catch (err) { console.log(err) }
+            setSuccessMsg('User deleted successfully.')
+            setTimeout(() => setSuccessMsg(''), 3000)
+        } catch (err) { 
+            console.log(err)
+            setErrorMsg('Failed to delete User. Please try again.') 
+            setTimeout(() => setErrorMsg(''), 3000)
+        }
     }
 
     // ── Edit modal ──
@@ -50,6 +60,8 @@ const UsersAdmin = () => {
             await axios.put(`http://localhost:8800/users/${editUser.userId}`, editUser)
             // Update local state directly instead of refetching
             setUsers(prev => prev.map(u => u.userId === editUser.userId ? editUser : u))
+            setSuccessMsg('User updated successfully.')       
+            setTimeout(() => setSuccessMsg(''), 3000) 
             closeEdit()
         } catch (err) {
             setServerError(err.response?.data?.message ?? 'Update failed')
@@ -65,10 +77,19 @@ const UsersAdmin = () => {
     )
 
     return (
-        <div className="Books">
-            <h1>Users</h1>
-
-            <table className="book-table">
+        <div className="Users">
+            <h1 className='Title'>Registerd Accounts</h1>
+            {successMsg && (
+                <div className="alert-success">
+                    <i className="bi bi-check-circle me-2"></i>{successMsg}
+                </div>
+            )}
+            {errorMsg && (
+                <div className="alert-error">
+                    <i className="bi bi-exclamation-circle me-2"></i>{errorMsg}
+                </div>
+            )}
+            <table className="users-table">
                 <thead>
                     <tr>
                         <th>ID</th>

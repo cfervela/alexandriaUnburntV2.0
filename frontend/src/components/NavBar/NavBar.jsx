@@ -1,35 +1,42 @@
 import { NavLink } from "react-router";
-//import './Navbar.css'
+import './NavBar.css'
+
+const navLinkClass = ({ isActive }) =>
+  isActive ? "nav-link-active" : "nav-link-default";
 
 const Navbar = () => {
-  const user = JSON.parse(localStorage.getItem('user') || '{}')
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
 
   return (
-    <nav className="navbar-main">
-      <NavLink to="/catalogue" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
-        Catalogue
-      </NavLink>
-
-      {user.role === 'admin' && (
-        <>
-          <NavLink to="/booksAdmin" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
-            Books
-          </NavLink>
-          {user.permissionLevel === 'superadmin' && (
-            <NavLink to="/usersAdmin" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
-              Users
-            </NavLink>
-          )}
-        </>
-      )}
-
-      {!user.role && (
-        <NavLink to="/register" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
-          Register
+      <nav className="navbar-main">
+        <NavLink to="/" className="navbar-brand">
+          Alexandria Unburnt
         </NavLink>
-      )}
-    </nav>
-  )
-}
 
-export default Navbar
+        <NavLink to="/catalogue" className={navLinkClass}>
+          Catalogue
+        </NavLink>
+
+        {user.role === "admin" && (
+          <>
+            <NavLink to="/booksAdmin" className={navLinkClass}>
+              Books
+            </NavLink>
+            {user.permissionLevel === "superadmin" && (
+              <NavLink to="/usersAdmin" className={navLinkClass}>
+                Users
+              </NavLink>
+            )}
+          </>
+        )}
+
+        {!user.role && (
+          <NavLink to="/register" className={navLinkClass}>
+            Register
+          </NavLink>
+        )}
+      </nav>
+  );
+};
+
+export default Navbar;

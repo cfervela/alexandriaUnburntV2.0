@@ -1,3 +1,13 @@
+body{
+    background-color: #c0c7da;
+
+}
+
+.container{
+  padding: 30px;
+  padding-top: 60px; 
+}
+
 /* GRID */
 .books-grid {
   display: grid;
