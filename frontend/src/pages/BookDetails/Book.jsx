@@ -33,7 +33,7 @@ const BookDetail = () => {
     }, [isbn])
 
     return (
-        <div className="container py-5 px-4">
+        <div className="book container mt-5">
             {loading && <p>Loading book details...</p>}
             {error && <p className="text-danger">Failed to load book. Please try again.</p>}
 

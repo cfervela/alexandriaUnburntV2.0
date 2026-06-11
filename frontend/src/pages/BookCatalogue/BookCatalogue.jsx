@@ -40,7 +40,7 @@ const BooksCatalogue = () => {
         : books.filter(book => genreMap[book.genreID] === selectedGenre)
 
     return (
-        <div className="container mt-5 py-5">
+        <div className="container">
             <div className="genre-filters">
                 {['all', 'Classic', 'Fantasy', 'Contemporary', 'History', 'Romance', 'YA'].map(genre => (
                     <button

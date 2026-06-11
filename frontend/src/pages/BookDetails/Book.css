@@ -1,9 +1,15 @@
-.container {
-  margin-top: 5vh;
+body{
+    background-color: #c0c7da;
+
+}
+
+.container{
+  padding: 30px;
+  padding-top: 100px; 
 }
 
 .book {
-  background-color: #97a3c2;
+  background-color: #97a3c2 !important;
   border-radius: 10px;
   color: #2B3349;
   padding: 2rem;
@@ -131,31 +137,5 @@ h1{
   }
   100%{
     background-position: 0% 50%;
-  }
-}
-
-/* Mensaje de confirmación */
-.mensaje-agregado {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  background: linear-gradient(135deg, #28a745, #20c997);
-  color: white;
-  padding: 1rem 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
-  animation: slideInRight 0.4s ease-out;
-  z-index: 2000;
-  font-weight: 600;
-}
-
-@keyframes slideInRight {
-  from {
-    opacity: 0;
-    transform: translateX(300px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
   }
 }

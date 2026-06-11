@@ -1,0 +1,53 @@
+@keyframes gradientAnimation {
+    0%   { background-position: 200% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.navbar-main {
+    z-index: 99;
+    background: #2B3349;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin: 0;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5em;
+    background-image: linear-gradient(
+        to right,
+        rgba(246, 114, 75, 1),
+        rgba(252, 138, 85, 1),
+        rgba(143, 78, 81, 1),
+        rgba(246, 114, 75, 1)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    background-size: 200% auto;
+    animation: gradientAnimation 3s linear infinite;
+    text-decoration: none;
+    margin-right: 16px;
+    white-space: nowrap;    
+}
+
+.nav-link-default,
+.nav-link-active {
+    color: #F6724B;
+    font-weight: bold;
+    position: relative;
+    padding: 8px 10px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+}
+
+.nav-link-default:hover,
+.nav-link-active {
+    background-color: rgba(246, 114, 75, 0.1);
+    color: #FDD0BB;
+}
+

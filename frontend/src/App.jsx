@@ -17,7 +17,7 @@ function App() {
   return (
     <BrowserRouter>
       <Navbar />
-      <div style={{ paddingTop: '60px' }}>
+      <div>
       <Suspense fallback={<div className="text-center mt-5">Loading…</div>}>
         <Routes>
           <Route path="/booksAdmin" element={<BooksAdmin/>}/>
