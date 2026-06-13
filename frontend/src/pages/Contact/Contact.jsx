@@ -67,7 +67,10 @@ const Contact = () => {
         {success && (
           <div className="contact-success">
             <i className="bi bi-check-circle"></i> {success}
-            <button className="btn browse-btn" onClick={() => navigate("/catalogue")}>
+            <button className="btn browse-btn" onClick={() => setSuccess("")}>
+              Send another message
+            </button>
+            <button className="btn browse-btn" onClick={() => navigate("/catalogue")} style={{ marginLeft: "0.5rem", background: "#2B3349" }}>
               Browse Catalogue
             </button>
           </div>
