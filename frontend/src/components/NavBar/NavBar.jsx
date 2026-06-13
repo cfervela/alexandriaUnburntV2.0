@@ -20,6 +20,10 @@ const Navbar = () => {
           Catalogue
         </NavLink>
 
+        <NavLink to="/contact" className={navLinkClass}>
+          Contact
+        </NavLink>
+
         {user?.role === "admin" && (
           <>
             <NavLink to="/booksAdmin" className={navLinkClass}>

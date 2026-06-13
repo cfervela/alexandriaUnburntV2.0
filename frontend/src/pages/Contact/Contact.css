@@ -1,0 +1,156 @@
+.contact-page {
+  min-height: calc(100vh - 60px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.contact-card {
+  background: #97a3c2;
+  border-radius: 12px;
+  padding: 2.5rem 2rem;
+  width: 100%;
+  max-width: 520px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.contact-card h2 {
+  color: #2B3349;
+  font-size: 1.6rem;
+  margin-bottom: 0.25rem;
+}
+
+.contact-card > span {
+  color: #2B3349;
+  opacity: 0.7;
+  font-size: 0.9rem;
+  display: block;
+  margin-bottom: 1.5rem;
+}
+
+.contact-field {
+  margin-bottom: 1rem;
+}
+
+.contact-field label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #2B3349;
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin-bottom: 0.35rem;
+}
+
+.char-count {
+  font-weight: 400;
+  opacity: 0.6;
+  font-size: 0.78rem;
+}
+
+.char-limit {
+  color: #991b1b;
+  opacity: 1;
+}
+
+.contact-field input,
+.contact-field textarea {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #c0c7da;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  background: #c0c7da;
+  color: #2B3349;
+  outline: none;
+  transition: border-color 0.2s;
+  font-family: inherit;
+}
+
+.contact-field input:focus,
+.contact-field textarea:focus {
+  border-color: #F6724B;
+}
+
+.contact-field input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.contact-field input::placeholder,
+.contact-field textarea::placeholder {
+  color: #2B3349;
+  opacity: 0.45;
+}
+
+.contact-field textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.contact-error {
+  color: #991b1b;
+  font-size: 0.85rem;
+  margin: 0.25rem 0;
+}
+
+.contact-success {
+  text-align: center;
+  padding: 1.5rem;
+  color: #065f46;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.contact-success i {
+  font-size: 1.8rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.contact-success .browse-btn {
+  margin-top: 1rem;
+  background-color: #F6724B;
+  color: #FDD0BB;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.contact-success .browse-btn:hover {
+  background-color: #2B3349;
+}
+
+.contact-btn {
+  width: 100%;
+  background: #F6724B;
+  color: #FDD0BB;
+  border: none;
+  border-radius: 8px;
+  padding: 0.65rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.contact-btn:hover:not(:disabled) {
+  background: #2B3349;
+}
+
+.contact-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .contact-page {
+    padding: 1rem;
+    align-items: flex-start;
+    padding-top: 80px;
+  }
+}

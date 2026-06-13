@@ -6,6 +6,7 @@ const publicBookRoutes = require('./routes/publicBookRoutes')
 const authRoutes = require('./routes/authRoutes')
 const userRoutes = require('./routes/userRoutes')
 const genreRoutes = require('./routes/genreRoutes')
+const messageRoutes = require('./routes/messageRoutes')
 
 const app = express()
 
@@ -18,5 +19,6 @@ app.use('/bookadmin', bookRoutes)
 app.use('/auth', authRoutes)
 app.use('/usersadmin', userRoutes)
 app.use('/genres', genreRoutes)
+app.use('/messages', messageRoutes)
 
 module.exports = app
