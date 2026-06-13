@@ -80,3 +80,29 @@ exports.register = (req, res) => {
         })
     })
 }
+
+exports.login = (req, res) => {
+    const { email, password } = req.body
+
+    if (!email || !password) {
+        return res.status(400).json({ message: 'Email and password are required' })
+    }
+
+    const q = `
+        SELECT u.userId, u.name, u.email,
+               CASE WHEN a.UseruserId IS NOT NULL THEN 'admin' ELSE 'client' END AS role,
+               a.permissionLevel
+        FROM User u
+        LEFT JOIN Admin a ON a.UseruserId = u.userId
+        LEFT JOIN Client c ON c.UseruserId = u.userId
+        WHERE u.email = ? AND u.password = ?
+    `
+    db.query(q, [email, password], (err, data) => {
+        if (err) return res.status(500).json({ message: err.sqlMessage })
+        if (!data[0]) return res.status(401).json({ message: 'Invalid email or password' })
+
+        const user = data[0]
+        const token = Buffer.from(`${user.userId}:${Date.now()}`).toString('base64')
+        return res.json({ token, user })
+    })
+}
