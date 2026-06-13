@@ -8,6 +8,45 @@ body{
   padding-top: 60px; 
 }
 
+.catalogue-search {
+  position: relative;
+  max-width: 500px;
+  margin: 0 auto 1.5rem;
+}
+
+.catalogue-search i {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #2B3349;
+  opacity: 0.4;
+  z-index: 1;
+}
+
+.catalogue-search input {
+  width: 100%;
+  padding: 0.65rem 1rem 0.65rem 2.5rem;
+  border: 2px solid #97a3c2;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  background: #c0c7da;
+  color: #2B3349;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.catalogue-search input:focus {
+  border-color: #F6724B;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(246, 114, 75, 0.15);
+}
+
+.catalogue-search input::placeholder {
+  color: #2B3349;
+  opacity: 0.45;
+}
+
 /* GRID */
 .books-grid {
   display: grid;

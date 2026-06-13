@@ -1,6 +1,6 @@
 import './BooksCatalogue.css'
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router'
+import { useNavigate, useSearchParams } from 'react-router'
 import { useCart } from '../../context/CartContext'
 import apiClient from '../../services/apiClient'
 
@@ -20,10 +20,13 @@ const getGenreClass = (genreID) => {
 
 const BooksCatalogue = () => {
     const [books, setBooks] = useState([])
-    const [selectedGenre, setSelectedGenre] = useState('all')
+    const [searchParams, setSearchParams] = useSearchParams()
+    const [searchText, setSearchText] = useState(searchParams.get('q') || '')
+    const selectedGenre = searchParams.get('genre') === 'all' || !searchParams.get('genre')
+        ? 'all'
+        : genreMap[searchParams.get('genre')] || 'all'
     const navigate = useNavigate()
     const { addToCart, items } = useCart()
-
 
     useEffect(() => {
         const fetchAllBooks = async () => {
@@ -37,18 +40,55 @@ const BooksCatalogue = () => {
         fetchAllBooks()
     }, [])
 
-    const filteredBooks = selectedGenre === 'all'
-        ? books
-        : books.filter(book => genreMap[book.genreID] === selectedGenre)
+    const filteredBooks = books.filter(book => {
+        const matchesGenre = selectedGenre === 'all' || genreMap[book.genreID] === selectedGenre
+        const query = searchParams.get('q')
+        const matchesSearch = !query
+            || book.title.toLowerCase().includes(query.toLowerCase())
+            || book.author.toLowerCase().includes(query.toLowerCase())
+        return matchesGenre && matchesSearch
+    })
+
+    const handleGenreClick = (genre) => {
+        const params = new URLSearchParams(searchParams)
+        if (genre === 'all') {
+            params.delete('genre')
+        } else {
+            const genreId = Object.keys(genreMap).find(id => genreMap[id] === genre)
+            params.set('genre', genreId)
+        }
+        setSearchParams(params)
+    }
+
+    const handleSearchSubmit = (e) => {
+        e.preventDefault()
+        const params = new URLSearchParams(searchParams)
+        if (searchText.trim()) {
+            params.set('q', searchText.trim())
+        } else {
+            params.delete('q')
+        }
+        setSearchParams(params)
+    }
 
     return (
         <div className="container">
+            <form className="catalogue-search" onSubmit={handleSearchSubmit}>
+                <i className="bi bi-search"></i>
+                <input
+                    type="text"
+                    placeholder="Search by title, author, or keyword..."
+                    value={searchText}
+                    onChange={(e) => setSearchText(e.target.value)}
+                />
+            </form>
+
             <div className="genre-filters">
                 {['all', 'Classic', 'Fantasy', 'Contemporary', 'History', 'Romance', 'YA'].map(genre => (
                     <button
                         key={genre}
                         className={`btn btn-genre ${genre.toLowerCase()} ${selectedGenre === genre ? 'active' : ''}`}
-                        onClick={() => setSelectedGenre(genre)}
+                        onClick={() => handleGenreClick(genre)}
                     >
                         {genre === 'all' ? 'All' : genre}
                     </button>
