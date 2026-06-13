@@ -14,7 +14,7 @@ const UsersAdmin = () => {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const res = await apiClient.get('/users')
+                const res = await apiClient.get('/usersadmin')
                 setUsers(Array.isArray(res.data) ? res.data : [])
             } catch (err) { console.log(err) }
         }
@@ -26,7 +26,7 @@ const UsersAdmin = () => {
         setErrorMsg('')
         setSuccessMsg('')
         try {
-            await apiClient.delete(`/users/${id}`)
+            await apiClient.delete(`/usersadmin/${id}`)
             setUsers(users.filter(u => u.userId !== id))
             setSuccessMsg('User deleted successfully.')
             setTimeout(() => setSuccessMsg(''), 3000)
@@ -48,7 +48,7 @@ const UsersAdmin = () => {
         e.preventDefault()
         setServerError('')
         try {
-            await apiClient.put(`/users/${editUser.userId}`, editUser)
+            await apiClient.put(`/usersadmin/${editUser.userId}`, editUser)
             // Update local state directly instead of refetching
             setUsers(prev => prev.map(u => u.userId === editUser.userId ? editUser : u))
             setSuccessMsg('User updated successfully.')       

@@ -28,7 +28,7 @@ const BooksCatalogue = () => {
     useEffect(() => {
         const fetchAllBooks = async () => {
             try {
-                const res = await apiClient.get("/bookadmin")
+                const res = await apiClient.get("/books")
                 setBooks(Array.isArray(res.data) ? res.data : [])
             } catch(err) {
                 console.log(err)

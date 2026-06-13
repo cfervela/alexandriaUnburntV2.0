@@ -26,7 +26,7 @@ const BookDetail = () => {
     useEffect(() => {
         const fetchBook = async () => {
             try {
-                const res = await apiClient.get(`/bookadmin/${isbn}`)
+                const res = await apiClient.get(`/books/${isbn}`)
                 setBook(res.data)
             } catch {
                 setError(true)

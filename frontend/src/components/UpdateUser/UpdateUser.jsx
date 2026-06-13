@@ -10,7 +10,7 @@ const UpdateUser = () => {
     
 
     useEffect(() => {
-        apiClient.get(`/users/${id}`)
+        apiClient.get(`/usersadmin/${id}`)
             .then(res => setUser(res.data))
             .catch(() => setError('Could not load user'))
     }, [id])
@@ -22,7 +22,7 @@ const UpdateUser = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            await apiClient.put(`/users/${id}`, user)
+            await apiClient.put(`/usersadmin/${id}`, user)
             navigate('/usersAdmin')
         } catch (err) {
             setError(err.response?.data?.message ?? 'Update failed')
