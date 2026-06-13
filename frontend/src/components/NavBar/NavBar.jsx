@@ -29,6 +29,9 @@ const Navbar = () => {
             <NavLink to="/booksAdmin" className={navLinkClass}>
               Books
             </NavLink>
+            <NavLink to="/messagesAdmin" className={navLinkClass}>
+              Messages
+            </NavLink>
             {user.permissionLevel === "superadmin" && (
               <NavLink to="/usersAdmin" className={navLinkClass}>
                 Users

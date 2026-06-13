@@ -16,6 +16,7 @@ const Contact       = lazy(() => import("./pages/Contact/Contact"));
 const Login         = lazy(() => import("./pages/Login/Login"));
 const Register      = lazy(() => import("./pages/Register/Register"));
 const UsersAdmin    = lazy(() => import("./pages/UsersAdmin/UsersAdmin"));
+const MessagesAdmin = lazy(() => import("./pages/MessagesAdmin/MessagesAdmin"));
 const UpdateUser    = lazy(() => import("./components/UpdateUser/UpdateUser"));
 
 function App() {
@@ -46,6 +47,9 @@ function App() {
           }/>
           <Route path="/usersAdmin/updateUser/:id" element={
             <ProtectedRoute requiredRole="admin" requiredPermission="superadmin"><UpdateUser /></ProtectedRoute>
+          } />
+          <Route path="/messagesAdmin" element={
+            <ProtectedRoute requiredRole="admin"><MessagesAdmin /></ProtectedRoute>
           } />
         </Routes>
       </Suspense>

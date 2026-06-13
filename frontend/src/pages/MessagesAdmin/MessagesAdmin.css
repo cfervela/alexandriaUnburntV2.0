@@ -1,0 +1,131 @@
+.MessagesAdmin {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 80px 2rem 2rem;
+}
+
+.Title {
+  background-color: #2B3349;
+  color: #FDD0BB;
+  border-radius: 12px;
+  display: inline-block;
+  padding: 0.3rem 1rem;
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
+}
+
+.msg-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #97a3c2;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.msg-table thead {
+  background: #2B3349;
+}
+
+.msg-table th {
+  color: #FDD0BB;
+  padding: 0.75rem 1rem;
+  font-size: 0.85rem;
+  text-align: left;
+  font-weight: 600;
+}
+
+.msg-table td {
+  padding: 0.65rem 1rem;
+  font-size: 0.85rem;
+  color: #2B3349;
+  border-bottom: 1px solid #c0c7da;
+}
+
+.msg-table tbody tr:hover {
+  background: rgba(246, 114, 75, 0.06);
+}
+
+.msg-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.msg-body {
+  max-width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.msg-user {
+  color: #2B3349;
+  font-weight: 600;
+}
+
+.msg-guest {
+  color: #2B3349;
+  opacity: 0.5;
+  font-style: italic;
+  font-size: 0.8rem;
+}
+
+.msg-empty {
+  text-align: center;
+  padding: 2rem !important;
+  color: #2B3349;
+  opacity: 0.6;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-top: 1.5rem;
+}
+
+.page-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 6px;
+  border: none;
+  background: #97a3c2;
+  color: #2B3349;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.page-btn:hover:not(:disabled) {
+  background: #F6724B;
+  color: #FDD0BB;
+}
+
+.page-btn.active {
+  background: #F6724B;
+  color: #FDD0BB;
+}
+
+.page-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .MessagesAdmin {
+    padding: 80px 0.5rem 1rem;
+  }
+
+  .msg-table th,
+  .msg-table td {
+    padding: 0.5rem 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  .msg-body {
+    max-width: 120px;
+  }
+}
