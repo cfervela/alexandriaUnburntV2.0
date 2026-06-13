@@ -73,3 +73,27 @@
     gap: 4px;
 }
 
+.nav-user {
+    color: #FDD0BB;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0 8px;
+    white-space: nowrap;
+}
+
+.nav-logout-btn {
+    background: none;
+    border: none;
+    color: #F6724B;
+    font-size: 1.1rem;
+    padding: 8px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.nav-logout-btn:hover {
+    background-color: rgba(246, 114, 75, 0.1);
+    color: #FDD0BB;
+}
+

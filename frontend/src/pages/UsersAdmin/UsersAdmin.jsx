@@ -10,15 +10,6 @@ const UsersAdmin = () => {
     const [serverError, setServerError] = useState('')
     const [successMsg, setSuccessMsg] = useState('')
     const [errorMsg, setErrorMsg] = useState('')
-    //const navigate = useNavigate()
-
-    // ── Guard ──
-    /*useEffect(() => {
-        const stored = localStorage.getItem('user')
-        if (!stored) { navigate('/'); return }
-        const user = JSON.parse(stored)
-        if (user.role !== 'admin' || user.permissionLevel !== 'superadmin') navigate('/')
-    }, [navigate])*/
 
     useEffect(() => {
         const fetchUsers = async () => {

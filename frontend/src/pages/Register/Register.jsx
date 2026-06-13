@@ -1,14 +1,16 @@
 import './Register.css';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate, Link } from 'react-router';
 import apiClient from '../../services/apiClient';
+import { useAuth } from '../../context/AuthContext';
 
 const Register = () => {
   const [role, setRole] = useState('client');
   const [serverError, setServerError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { setAuth } = useAuth();
 
 
   const {
@@ -37,8 +39,7 @@ const Register = () => {
     try {
         const res = await apiClient.post('/auth/register', payload);
 
-        localStorage.setItem('token', res.data.token);
-        localStorage.setItem('user', JSON.stringify(res.data.user));
+        setAuth(res.data.token, res.data.user);
 
         if (res.data.user.role === 'admin') {
             navigate('/booksAdmin');
@@ -175,6 +176,11 @@ const Register = () => {
               {loading ? 'Registering…' : 'Register'}
             </button>
           </form>
+
+          <p className="register-footer">
+            Already have an account?{" "}
+            <Link to="/login">Login</Link>
+          </p>
         </div>
       </div>
     </section>

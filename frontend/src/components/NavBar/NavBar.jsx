@@ -1,4 +1,5 @@
 import { NavLink } from "react-router";
+import { useAuth } from "../../context/AuthContext";
 import { useCart } from "../../context/CartContext";
 import './NavBar.css'
 
@@ -6,7 +7,7 @@ const navLinkClass = ({ isActive }) =>
   isActive ? "nav-link-active" : "nav-link-default";
 
 const Navbar = () => {
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const { isAuthenticated, user, logout } = useAuth();
   const { totalItems } = useCart();
 
   return (
@@ -19,7 +20,7 @@ const Navbar = () => {
           Catalogue
         </NavLink>
 
-        {user.role === "admin" && (
+        {user?.role === "admin" && (
           <>
             <NavLink to="/booksAdmin" className={navLinkClass}>
               Books
@@ -40,10 +41,22 @@ const Navbar = () => {
             )}
           </NavLink>
 
-          {!user.role && (
-            <NavLink to="/register" className={navLinkClass}>
-              Register
-            </NavLink>
+          {isAuthenticated ? (
+            <>
+              <span className="nav-user">{user?.name}</span>
+              <button className="nav-logout-btn" onClick={logout}>
+                <i className="bi bi-box-arrow-right"></i>
+              </button>
+            </>
+          ) : (
+            <>
+              <NavLink to="/login" className={navLinkClass}>
+                Login
+              </NavLink>
+              <NavLink to="/register" className={navLinkClass}>
+                Register
+              </NavLink>
+            </>
           )}
         </div>
       </nav>

@@ -201,6 +201,23 @@ body {
   cursor: not-allowed;
 }
 
+.register-footer {
+  text-align: center;
+  margin-top: 1.25rem;
+  font-size: 0.85rem;
+  color: #97a3c2;
+}
+
+.register-footer a {
+  color: #F6724B;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.register-footer a:hover {
+  text-decoration: underline;
+}
+
 @keyframes gradientAnimation {
     0%   { background-position: 200% 50%; }
     100% { background-position: 0% 50%; }
