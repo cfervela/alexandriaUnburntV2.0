@@ -5,12 +5,29 @@ import "./MessagesAdmin.css"
 const MessagesAdmin = () => {
   const [messages, setMessages] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
+  const [successMsg, setSuccessMsg] = useState("")
 
-  useEffect(() => {
+  const fetchMessages = () => {
     apiClient.get("/messages")
       .then(res => setMessages(res.data))
       .catch(() => {})
+  }
+
+  useEffect(() => {
+    fetchMessages()
   }, [])
+
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this message?")) return
+    try {
+      await apiClient.delete(`/messages/${id}`)
+      setMessages(prev => prev.filter(m => m.messageId !== id))
+      setSuccessMsg("Message deleted.")
+      setTimeout(() => setSuccessMsg(""), 3000)
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
   const msgPerPage = 8
   const totalPages = Math.ceil(messages.length / msgPerPage)
@@ -32,6 +49,12 @@ const MessagesAdmin = () => {
     <div className="MessagesAdmin">
       <h1 className="Title">Contact Messages</h1>
 
+      {successMsg && (
+        <div className="msg-success">
+          <i className="bi bi-check-circle me-2"></i>{successMsg}
+        </div>
+      )}
+
       <table className="msg-table">
         <thead>
           <tr>
@@ -41,6 +64,7 @@ const MessagesAdmin = () => {
             <th>Subject</th>
             <th>Message</th>
             <th>User</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -58,11 +82,16 @@ const MessagesAdmin = () => {
                   <span className="msg-guest">Guest</span>
                 )}
               </td>
+              <td>
+                <button className="msg-delete-btn" onClick={() => handleDelete(msg.messageId)}>
+                  <i className="bi bi-trash"></i>
+                </button>
+              </td>
             </tr>
           ))}
           {paginated.length === 0 && (
             <tr>
-              <td colSpan={6} className="msg-empty">No messages yet.</td>
+              <td colSpan={7} className="msg-empty">No messages yet.</td>
             </tr>
           )}
         </tbody>

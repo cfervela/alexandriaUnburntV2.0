@@ -33,3 +33,11 @@ exports.getAll = (req, res) => {
         return res.json(data)
     })
 }
+
+exports.remove = (req, res) => {
+    const q = 'DELETE FROM Message WHERE messageId = ?'
+    db.query(q, [req.params.id], (err, data) => {
+        if (err) return res.status(500).json({ message: err.sqlMessage })
+        return res.json({ message: 'Message deleted' })
+    })
+}

@@ -76,6 +76,30 @@
   opacity: 0.6;
 }
 
+.msg-success {
+  background: #065f46;
+  color: #d1fae5;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+  display: inline-block;
+}
+
+.msg-delete-btn {
+  background: none;
+  border: none;
+  color: #991b1b;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  transition: color 0.2s;
+}
+
+.msg-delete-btn:hover {
+  color: #F6724B;
+}
+
 .pagination {
   display: flex;
   justify-content: center;
