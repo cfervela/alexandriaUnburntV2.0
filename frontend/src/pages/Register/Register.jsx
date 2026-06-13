@@ -1,6 +1,6 @@
 import './Register.css';
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router';
 import apiClient from '../../services/apiClient';
 import { useAuth } from '../../context/AuthContext';
@@ -17,8 +17,17 @@ const Register = () => {
     register,
     handleSubmit,
     watch,
+    unregister,
     formState: { errors },
   } = useForm({ defaultValues: { role: 'client' } });
+
+  useEffect(() => {
+    if (role === 'client') {
+      unregister('permissionLevel')
+    } else {
+      unregister(['address', 'phone'])
+    }
+  }, [role, unregister])
 
   const password = watch('password');
 
