@@ -34,6 +34,7 @@ export function AuthProvider({ children }) {
   }
 
   const logout = () => {
+    localStorage.removeItem("cart")
     setUser(null)
     setToken(null)
   }
