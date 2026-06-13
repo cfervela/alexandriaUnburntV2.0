@@ -1,7 +1,8 @@
 import './BooksCatalogue.css'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
-import axios from 'axios'
+import { useCart } from '../../context/CartContext'
+import apiClient from '../../services/apiClient'
 
 const genreMap = {
     1: 'Classic',
@@ -21,12 +22,13 @@ const BooksCatalogue = () => {
     const [books, setBooks] = useState([])
     const [selectedGenre, setSelectedGenre] = useState('all')
     const navigate = useNavigate()
+    const { addToCart, items } = useCart()
 
 
     useEffect(() => {
         const fetchAllBooks = async () => {
             try {
-                const res = await axios.get("http://localhost:8800/bookadmin")
+                const res = await apiClient.get("/bookadmin")
                 setBooks(Array.isArray(res.data) ? res.data : [])
             } catch(err) {
                 console.log(err)
@@ -83,6 +85,9 @@ const BooksCatalogue = () => {
                                     <span className="book-price me-4">${book.price}</span>
                                     <button className="btn-info" onClick={() => navigate(`/catalogue/${book.isbn}`)}>
                                         <i className="bi bi-zoom-in"></i> Info
+                                    </button>
+                                    <button className="btn-cart-add" onClick={() => addToCart(book)}>
+                                        <i className="bi bi-cart-plus"></i>
                                     </button>
                                 </div>
                             </div>

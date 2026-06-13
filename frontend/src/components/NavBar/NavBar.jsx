@@ -1,4 +1,5 @@
 import { NavLink } from "react-router";
+import { useCart } from "../../context/CartContext";
 import './NavBar.css'
 
 const navLinkClass = ({ isActive }) =>
@@ -6,6 +7,7 @@ const navLinkClass = ({ isActive }) =>
 
 const Navbar = () => {
   const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const { totalItems } = useCart();
 
   return (
       <nav className="navbar-main">
@@ -30,11 +32,20 @@ const Navbar = () => {
           </>
         )}
 
-        {!user.role && (
-          <NavLink to="/register" className={navLinkClass}>
-            Register
+        <div className="navbar-right">
+          <NavLink to="/cart" className={navLinkClass}>
+            <i className="bi bi-cart"></i>
+            {totalItems > 0 && (
+              <span className="cart-badge">{totalItems}</span>
+            )}
           </NavLink>
-        )}
+
+          {!user.role && (
+            <NavLink to="/register" className={navLinkClass}>
+              Register
+            </NavLink>
+          )}
+        </div>
       </nav>
   );
 };

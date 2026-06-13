@@ -209,6 +209,22 @@ body{
   color: #c7d9de;
 }
 
+.btn-cart-add {
+  padding: 0.4rem 0.6rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  background: #FDD0BB;
+  color: #F6724B;
+  transition: background 0.2s, color 0.2s;
+}
+
+.btn-cart-add:hover {
+  background: #F6724B;
+  color: #FDD0BB;
+}
+
 /* EMPTY STATE */
 .empty-state {
   grid-column: 1 / -1;

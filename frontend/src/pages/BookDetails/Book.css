@@ -139,3 +139,16 @@ h1{
     background-position: 0% 50%;
   }
 }
+
+.cart-added-msg {
+  color: #065f46;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-left: 1rem;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}

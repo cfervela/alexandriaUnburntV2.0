@@ -1,7 +1,8 @@
 import './Book.css'
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router'
-import axios from 'axios'
+import { useCart } from '../../context/CartContext'
+import apiClient from '../../services/apiClient'
 
 const genreMap = {
     1: 'Classic', 2: 'Fantasy', 3: 'Romance',
@@ -13,15 +14,19 @@ const getGenreClass = (genreID) => (genreMap[genreID] || '').toLowerCase()
 const BookDetail = () => {
     const { isbn } = useParams()
     const navigate = useNavigate()
+    const { addToCart, items } = useCart()
     const [book, setBook] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(false)
     const [imgError, setImgError] = useState(false)
+    const [addedMsg, setAddedMsg] = useState(false)
+
+    const isInCart = items.some((item) => item.isbn === book?.isbn)
 
     useEffect(() => {
         const fetchBook = async () => {
             try {
-                const res = await axios.get(`http://localhost:8800/bookadmin/${isbn}`)
+                const res = await apiClient.get(`/bookadmin/${isbn}`)
                 setBook(res.data)
             } catch {
                 setError(true)
@@ -63,10 +68,22 @@ const BookDetail = () => {
                         <p><strong>ISBN:</strong> {book.isbn}</p>
                         <p><strong>Price:</strong> ${book.price}</p>
                         <p><strong>Stock:</strong> {book.stock} available</p>
-                        <button className="btn cart">
-                            <i className="bi bi-plus-lg" style={{marginRight: '10px'}}></i>
-                            Agregar al carrito
+                        <button
+                            className="btn cart"
+                            onClick={() => {
+                                addToCart(book)
+                                setAddedMsg(true)
+                                setTimeout(() => setAddedMsg(false), 2000)
+                            }}
+                        >
+                            <i className="bi bi-cart-plus" style={{marginRight: '10px'}}></i>
+                            {isInCart ? 'Add one more' : 'Agregar al carrito'}
                         </button>
+                        {addedMsg && (
+                            <span className="cart-added-msg">
+                                <i className="bi bi-check-circle"></i> Added to cart!
+                            </span>
+                        )}
                     </div>
                 </div>
             )}
