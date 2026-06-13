@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react'
 import { useNavigate, useOutletContext } from 'react-router'
 import { Button, Modal, Form } from 'react-bootstrap'
-import axios from 'axios'
+import apiClient from '../../services/apiClient'
 
 function Add() {
     const navigate = useNavigate()
@@ -21,7 +21,7 @@ function Add() {
     const handleSubmit = async () => {
         setErrorMsg('')
         try {
-            await axios.post("http://localhost:8800/bookadmin", {
+            await apiClient.post("/bookadmin", {
                 isbn: isbnRef.current.value,
                 title: titleRef.current.value,
                 author: authorRef.current.value,

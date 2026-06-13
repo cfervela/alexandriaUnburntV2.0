@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import { Button, Modal, Form } from 'react-bootstrap'
 import { useOutletContext } from 'react-router'
-import axios from 'axios'
+import apiClient from '../../services/apiClient'
 
 function Update() {
     const { onSuccess } = useOutletContext()
@@ -24,7 +24,7 @@ function Update() {
     useEffect(() => {
         const fetchBook = async () => {
             try {
-                const res = await axios.get(`http://localhost:8800/bookadmin/${isbn}`)
+                const res = await apiClient.get(`/bookadmin/${isbn}`)
                 setBook(res.data)
             } catch(err) {
                 console.log(err)
@@ -36,7 +36,7 @@ function Update() {
     const handleSubmit = async () => {
         setErrorMsg('')
         try {
-            await axios.put(`http://localhost:8800/bookadmin/${isbn}`, {
+            await apiClient.put(`/bookadmin/${isbn}`, {
                 title: titleRef.current.value,
                 author: authorRef.current.value,
                 description: descriptionRef.current.value,

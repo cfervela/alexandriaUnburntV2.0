@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
-import axios from 'axios'
+import apiClient from '../../services/apiClient'
 
 const UpdateUser = () => {
     const { id } = useParams()
@@ -10,7 +10,7 @@ const UpdateUser = () => {
     
 
     useEffect(() => {
-        axios.get(`http://localhost:8800/users/${id}`)
+        apiClient.get(`/users/${id}`)
             .then(res => setUser(res.data))
             .catch(() => setError('Could not load user'))
     }, [id])
@@ -22,7 +22,7 @@ const UpdateUser = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            await axios.put(`http://localhost:8800/users/${id}`, user)
+            await apiClient.put(`/users/${id}`, user)
             navigate('/usersAdmin')
         } catch (err) {
             setError(err.response?.data?.message ?? 'Update failed')

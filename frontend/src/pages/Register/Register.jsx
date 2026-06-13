@@ -2,9 +2,7 @@ import './Register.css';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-
-
-const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:8800';
+import apiClient from '../../services/apiClient';
 
 const Register = () => {
   const [role, setRole] = useState('client');
@@ -37,29 +35,19 @@ const Register = () => {
     };
 
     try {
-        const res = await fetch(`${API_URL}/auth/register`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload),
-        });
+        const res = await apiClient.post('/auth/register', payload);
 
-        const body = await res.json();
+        localStorage.setItem('token', res.data.token);
+        localStorage.setItem('user', JSON.stringify(res.data.user));
 
-        if (!res.ok) {
-            setServerError(body.message ?? 'Registration failed. Please try again.');
-            return;
-        }
-
-        localStorage.setItem('token', body.token);
-        localStorage.setItem('user', JSON.stringify(body.user));
-
-        if (body.user.role === 'admin') {
+        if (res.data.user.role === 'admin') {
             navigate('/booksAdmin');
         } else {
             navigate('/catalogue');
         }
-    } catch {
-      setServerError('Network error. Please check your connection.');
+    } catch (err) {
+      const message = err.response?.data?.message ?? 'Network error. Please check your connection.';
+      setServerError(message);
     } finally {
       setLoading(false);
     }

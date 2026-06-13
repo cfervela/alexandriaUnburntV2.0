@@ -1,6 +1,6 @@
 import './UsersAdmin.css'
 import { useEffect, useState } from 'react'
-import axios from 'axios'
+import apiClient from '../../services/apiClient'
 //import { useNavigate } from 'react-router'
 
 const UsersAdmin = () => {
@@ -23,7 +23,7 @@ const UsersAdmin = () => {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const res = await axios.get('http://localhost:8800/users')
+                const res = await apiClient.get('/users')
                 setUsers(Array.isArray(res.data) ? res.data : [])
             } catch (err) { console.log(err) }
         }
@@ -35,7 +35,7 @@ const UsersAdmin = () => {
         setErrorMsg('')
         setSuccessMsg('')
         try {
-            await axios.delete(`http://localhost:8800/users/${id}`)
+            await apiClient.delete(`/users/${id}`)
             setUsers(users.filter(u => u.userId !== id))
             setSuccessMsg('User deleted successfully.')
             setTimeout(() => setSuccessMsg(''), 3000)
@@ -57,7 +57,7 @@ const UsersAdmin = () => {
         e.preventDefault()
         setServerError('')
         try {
-            await axios.put(`http://localhost:8800/users/${editUser.userId}`, editUser)
+            await apiClient.put(`/users/${editUser.userId}`, editUser)
             // Update local state directly instead of refetching
             setUsers(prev => prev.map(u => u.userId === editUser.userId ? editUser : u))
             setSuccessMsg('User updated successfully.')       

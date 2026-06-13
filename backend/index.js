@@ -9,19 +9,28 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors())
 
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'AlexandriaUnburnt',
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || '',
+    database: process.env.DB_NAME || 'AlexandriaUnburnt',
 })
 
-db.connect((err) => {
-    if (err) {
-        console.error('DB connection error:', err)
-        return
-    }
-    console.log('Connected to MySQL')
-})
+function connectWithRetry(retries = 10, delay = 3000) {
+    db.connect((err) => {
+        if (err) {
+            console.error(`DB connection failed (${retries} retries left):`, err.code)
+            if (retries > 0) {
+                setTimeout(() => connectWithRetry(retries - 1, delay), delay)
+            } else {
+                console.error('DB connection exhausted retries, exiting')
+                process.exit(1)
+            }
+            return
+        }
+        console.log('Connected to MySQL')
+    })
+}
+connectWithRetry()
 
 
 //returns all books to the admin view
@@ -291,6 +300,6 @@ app.put('/users/:id', (req, res) => {
     })
 })
 
-app.listen(8800, ()=>{
-    console.log("Connected to backend");
+app.listen(process.env.PORT || 8800, ()=>{
+    console.log(`Backend ready at http://localhost:${process.env.PORT || 8800}`)
 })

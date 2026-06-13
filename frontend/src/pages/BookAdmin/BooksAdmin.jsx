@@ -1,6 +1,6 @@
 import './BooksAdmin.css'
 import { useEffect, useState } from 'react'
-import axios from 'axios'
+import apiClient from '../../services/apiClient'
 import { useNavigate } from 'react-router'
 import { Outlet } from "react-router"
 
@@ -21,7 +21,7 @@ const BooksAdmin = () => {
     useEffect(() => {
         const fetchAllBooks = async () => {
             try {
-                const res = await axios.get("http://localhost:8800/bookadmin")
+                const res = await apiClient.get("/bookadmin")
                 setBooks(Array.isArray(res.data) ? res.data : [])
             } catch(err) {
                 console.log(err)
@@ -35,7 +35,7 @@ const BooksAdmin = () => {
         setSuccessMsg('')
         setLoading(true)
         try {
-            await axios.delete("http://localhost:8800/bookadmin/" + id)
+            await apiClient.delete("/bookadmin/" + id)
             setBooks(prev => prev.filter(b => b.isbn !== id))
             setSuccessMsg('Book deleted successfully.')
             setTimeout(() => setSuccessMsg(''), 3000)
