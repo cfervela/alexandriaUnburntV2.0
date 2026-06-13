@@ -124,6 +124,18 @@
   color: #FDD0BB;
 }
 
+.qty-btn-disabled,
+.qty-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.qty-btn-disabled:hover,
+.qty-btn:disabled:hover {
+  background: #FDD0BB;
+  color: #F6724B;
+}
+
 .qty-value {
   font-weight: 700;
   color: #2B3349;

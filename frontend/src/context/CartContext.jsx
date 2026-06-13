@@ -13,9 +13,11 @@ export function CartProvider({ children }) {
   }, [items])
 
   const addToCart = (book) => {
+    const maxStock = book.stock || 999
     setItems((prev) => {
       const existing = prev.find((item) => item.isbn === book.isbn)
       if (existing) {
+        if (existing.quantity >= maxStock) return prev
         return prev.map((item) =>
           item.isbn === book.isbn
             ? { ...item, quantity: item.quantity + 1 }
@@ -33,9 +35,11 @@ export function CartProvider({ children }) {
   const updateQuantity = (isbn, quantity) => {
     if (quantity < 1) return
     setItems((prev) =>
-      prev.map((item) =>
-        item.isbn === isbn ? { ...item, quantity } : item
-      )
+      prev.map((item) => {
+        if (item.isbn !== isbn) return item
+        const maxQty = item.stock || 999
+        return { ...item, quantity: Math.min(quantity, maxQty) }
+      })
     )
   }
 

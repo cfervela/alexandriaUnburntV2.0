@@ -1,9 +1,11 @@
 import { useCart } from "../../context/CartContext"
+import { useAuth } from "../../context/AuthContext"
 import { useNavigate } from "react-router"
 import "./Cart.css"
 
 const Cart = () => {
   const { items, removeFromCart, updateQuantity, clearCart, totalItems, totalPrice } = useCart()
+  const { isAuthenticated } = useAuth()
   const navigate = useNavigate()
 
   if (items.length === 0) {
@@ -60,8 +62,9 @@ const Cart = () => {
               </button>
               <span className="qty-value">{item.quantity}</span>
               <button
-                className="qty-btn"
+                className={`qty-btn ${item.quantity >= (item.stock || 999) ? "qty-btn-disabled" : ""}`}
                 onClick={() => updateQuantity(item.isbn, item.quantity + 1)}
+                disabled={item.quantity >= (item.stock || 999)}
               >
                 <i className="bi bi-plus"></i>
               </button>
@@ -88,9 +91,15 @@ const Cart = () => {
           <span className="cart-summary-label">Total:</span>
           <span className="cart-summary-price">${totalPrice.toFixed(2)}</span>
         </div>
-        <button className="btn checkout-btn">
-          <i className="bi bi-credit-card"></i> Proceed to Checkout
-        </button>
+        {isAuthenticated ? (
+          <button className="btn checkout-btn">
+            <i className="bi bi-credit-card"></i> Proceed to Checkout
+          </button>
+        ) : (
+          <button className="btn checkout-btn" onClick={() => navigate("/login")}>
+            <i className="bi bi-box-arrow-in-right"></i> Login to Checkout
+          </button>
+        )}
       </div>
     </div>
   )
