@@ -18,6 +18,7 @@ const Register      = lazy(() => import("./pages/Register/Register"));
 const UsersAdmin    = lazy(() => import("./pages/UsersAdmin/UsersAdmin"));
 const MessagesAdmin = lazy(() => import("./pages/MessagesAdmin/MessagesAdmin"));
 const UpdateUser    = lazy(() => import("./components/UpdateUser/UpdateUser"));
+const NotFound      = lazy(() => import("./pages/NotFound/NotFound"));
 
 function App() {
   return (
@@ -51,6 +52,7 @@ function App() {
           <Route path="/messagesAdmin" element={
             <ProtectedRoute requiredRole="admin"><MessagesAdmin /></ProtectedRoute>
           } />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
       </div>
