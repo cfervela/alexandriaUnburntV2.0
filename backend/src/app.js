@@ -7,6 +7,7 @@ const authRoutes = require('./routes/authRoutes')
 const userRoutes = require('./routes/userRoutes')
 const genreRoutes = require('./routes/genreRoutes')
 const messageRoutes = require('./routes/messageRoutes')
+const orderRoutes = require('./routes/orderRoutes')
 
 const app = express()
 
@@ -20,5 +21,6 @@ app.use('/auth', authRoutes)
 app.use('/usersadmin', userRoutes)
 app.use('/genres', genreRoutes)
 app.use('/messages', messageRoutes)
+app.use('/orders', orderRoutes)
 
 module.exports = app

@@ -165,7 +165,7 @@ CREATE TABLE `Have` (
 
 CREATE TABLE `Message` (
   `messageId` tinyint(3) UNSIGNED NOT NULL,
-  `subject` varbinary(40) NOT NULL,
+  `subject` varchar(40) NOT NULL,
   `message` varchar(200) NOT NULL,
   `sentData` varchar(255) NOT NULL,
   `UseruserId` tinyint(3) UNSIGNED NOT NULL
@@ -190,9 +190,9 @@ CREATE TABLE `User` (
 --
 
 INSERT INTO `User` (`userId`, `name`, `email`, `password`, `CartcartId`) VALUES
-(7, 'Celia Fernanda Vela Uribe', 'celiafer@gmail.com', '12345678!!', NULL),
-(8, 'fer vela', 'fervela@email.com', '12345678!!', NULL),
-(9, 'Ana Martínez', 'ana@mail.com', '123450987', NULL);
+(7, 'Celia Fernanda Vela Uribe', 'celiafer@gmail.com', '$2b$10$cxlBT9eHyXxadkXfxhLkteHJ/Khz1ZWRu2JEHLc2.kczYyxf.AwTy', NULL),
+(8, 'fer vela', 'fervela@email.com', '$2b$10$cxlBT9eHyXxadkXfxhLkteHJ/Khz1ZWRu2JEHLc2.kczYyxf.AwTy', NULL),
+(9, 'Ana Martínez', 'ana@mail.com', '$2b$10$C7Fyv1ZwFmX7R2JPWwzzC.uLDUtUqlEUTEUNHSmboFD/tee7XSupy', NULL);
 
 --
 -- Indexes for dumped tables
@@ -262,6 +262,42 @@ ALTER TABLE `User`
   MODIFY `userId` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
+-- AUTO_INCREMENT for table `Message`
+--
+ALTER TABLE `Message`
+  MODIFY `messageId` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- Table structure for table `BookOrder`
+--
+
+CREATE TABLE `BookOrder` (
+  `orderId` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `userId` tinyint(3) UNSIGNED NOT NULL,
+  `orderDate` varchar(255) NOT NULL,
+  `total` float NOT NULL,
+  PRIMARY KEY (`orderId`),
+  KEY `order_ibfk_1` (`userId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `OrderItem`
+--
+
+CREATE TABLE `OrderItem` (
+  `orderId` tinyint(3) UNSIGNED NOT NULL,
+  `isbn` varchar(13) NOT NULL,
+  `quantity` int(10) UNSIGNED NOT NULL,
+  `price` float NOT NULL,
+  PRIMARY KEY (`orderId`, `isbn`),
+  KEY `orderitem_ibfk_2` (`isbn`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Constraints for dumped tables
 --
 
@@ -283,6 +319,19 @@ ALTER TABLE `Have`
 --
 ALTER TABLE `Message`
   ADD CONSTRAINT `message_ibfk_1` FOREIGN KEY (`UseruserId`) REFERENCES `User` (`userId`);
+
+--
+-- Constraints for table `BookOrder`
+--
+ALTER TABLE `BookOrder`
+  ADD CONSTRAINT `order_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `User` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `OrderItem`
+--
+ALTER TABLE `OrderItem`
+  ADD CONSTRAINT `orderitem_ibfk_1` FOREIGN KEY (`orderId`) REFERENCES `BookOrder` (`orderId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `orderitem_ibfk_2` FOREIGN KEY (`isbn`) REFERENCES `Book` (`isbn`) ON UPDATE CASCADE;
 
 --
 -- Constraints for table `User`

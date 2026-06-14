@@ -28,6 +28,7 @@ services:
       DB_USER: root
       DB_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
       DB_NAME: AlexandriaUnburnt
+      JWT_SECRET: ${JWT_SECRET:-change_me_in_production}
       PORT: "8800"
     depends_on:
       db:
