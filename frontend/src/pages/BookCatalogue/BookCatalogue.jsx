@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router'
 import { useCart } from '../../context/CartContext'
 import apiClient from '../../services/apiClient'
+import BookCard from '../../components/BookCard/BookCard'
 
 const genreMap = {
     1: 'Classic',
@@ -11,11 +12,6 @@ const genreMap = {
     4: 'Contemporary',
     5: 'History',
     6: 'YA',
-}
-
-const getGenreClass = (genreID) => {
-    const genre = genreMap[genreID] || ''
-    return genre.toLowerCase()
 }
 
 const BooksCatalogue = () => {
@@ -33,7 +29,7 @@ const BooksCatalogue = () => {
             try {
                 const res = await apiClient.get("/books")
                 setBooks(Array.isArray(res.data) ? res.data : [])
-            } catch(err) {
+            } catch (err) {
                 console.log(err)
             }
         }
@@ -103,35 +99,16 @@ const BooksCatalogue = () => {
                     </div>
                 ) : (
                     filteredBooks.map(book => (
-                        <div className="book-card" key={book.isbn}>
-                            <div className="book-cover">
-                                <img
-                                    src={`https://covers.openlibrary.org/b/isbn/${book.isbn}-L.jpg`}
-                                    alt={book.title}
-                                    onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex' }}
-                                />
-                                <div className="cover-placeholder" style={{display: 'none'}}>
-                                    {book.title?.[0]}
-                                </div>
-                            </div>
-                            <div className="book-info">
-                                <h3 className="book-title">{book.title}</h3>
-                                <p className="book-author">{book.author}</p>
-                                <span className={`book-genre genre-${getGenreClass(book.genreID)}`}>
-                                    {genreMap[book.genreID] || 'Unknown'}
-                                </span>
-                                <p className="book-description">{book.description}</p>
-                                <div className="book-meta">
-                                    <span className="book-price me-4">${book.price}</span>
-                                    <button className="btn-info" onClick={() => navigate(`/catalogue/${book.isbn}`)}>
-                                        <i className="bi bi-zoom-in"></i> Info
-                                    </button>
-                                    <button className="btn-cart-add" onClick={() => addToCart(book)}>
-                                        <i className="bi bi-cart-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                        <BookCard
+                            key={book.isbn}
+                            book={{ ...book, genreName: genreMap[book.genreID] || 'Unknown' }}
+                            variant="catalogue"
+                            onNavigate={(isbn) => navigate(`/catalogue/${isbn}`)}
+                            onAddToCart={addToCart}
+                            showGenre
+                            showDescription
+                            showInfoButton
+                        />
                     ))
                 )}
             </div>

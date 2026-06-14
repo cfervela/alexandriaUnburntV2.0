@@ -2,6 +2,7 @@ import { useEffect, useState, useMemo } from "react"
 import { useNavigate } from "react-router"
 import { useCart } from "../../context/CartContext"
 import apiClient from "../../services/apiClient"
+import BookCard from "../../components/BookCard/BookCard"
 import "./Home.css"
 
 const genreIcons = {
@@ -118,39 +119,13 @@ const Home = () => {
         <h2>Featured Books</h2>
         <div className="featured-grid">
           {featured.map((book) => (
-            <div
+            <BookCard
               key={book.isbn}
-              className="featured-card"
-              onClick={() => navigate(`/catalogue/${book.isbn}`)}
-            >
-              <div className="featured-cover">
-                <img
-                  src={`https://covers.openlibrary.org/b/isbn/${book.isbn}-M.jpg`}
-                  alt={book.title}
-                  onError={(e) => {
-                    e.target.style.display = "none"
-                    e.target.nextSibling.style.display = "flex"
-                  }}
-                />
-                <div className="cover-placeholder" style={{ display: "none" }}>
-                  {book.title?.[0]}
-                </div>
-              </div>
-              <h3 className="featured-title">{book.title}</h3>
-              <p className="featured-author">{book.author}</p>
-              <div className="featured-footer">
-                <span className="featured-price">${Number(book.price).toFixed(2)}</span>
-                <button
-                  className="btn-cart-add-sm"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    addToCart(book)
-                  }}
-                >
-                  <i className="bi bi-cart-plus"></i>
-                </button>
-              </div>
-            </div>
+              book={book}
+              variant="featured"
+              onNavigate={(isbn) => navigate(`/catalogue/${isbn}`)}
+              onAddToCart={addToCart}
+            />
           ))}
         </div>
       </section>
@@ -164,39 +139,13 @@ const Home = () => {
             <h2>{genre.Type === "Cotemporary" ? "Contemporary" : genre.Type}</h2>
             <div className="featured-grid">
               {genreBooks.map((book) => (
-                <div
+                <BookCard
                   key={book.isbn}
-                  className="featured-card"
-                  onClick={() => navigate(`/catalogue/${book.isbn}`)}
-                >
-                  <div className="featured-cover">
-                    <img
-                      src={`https://covers.openlibrary.org/b/isbn/${book.isbn}-M.jpg`}
-                      alt={book.title}
-                      onError={(e) => {
-                        e.target.style.display = "none"
-                        e.target.nextSibling.style.display = "flex"
-                      }}
-                    />
-                    <div className="cover-placeholder" style={{ display: "none" }}>
-                      {book.title?.[0]}
-                    </div>
-                  </div>
-                  <h3 className="featured-title">{book.title}</h3>
-                  <p className="featured-author">{book.author}</p>
-                  <div className="featured-footer">
-                    <span className="featured-price">${Number(book.price).toFixed(2)}</span>
-                    <button
-                      className="btn-cart-add-sm"
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        addToCart(book)
-                      }}
-                    >
-                      <i className="bi bi-cart-plus"></i>
-                    </button>
-                  </div>
-                </div>
+                  book={book}
+                  variant="featured"
+                  onNavigate={(isbn) => navigate(`/catalogue/${isbn}`)}
+                  onAddToCart={addToCart}
+                />
               ))}
             </div>
           </section>
