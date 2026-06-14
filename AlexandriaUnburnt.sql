@@ -168,7 +168,7 @@ CREATE TABLE `Message` (
   `subject` varchar(40) NOT NULL,
   `message` varchar(200) NOT NULL,
   `sentData` varchar(255) NOT NULL,
-  `UseruserId` tinyint(3) UNSIGNED NOT NULL
+  `UseruserId` tinyint(3) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------

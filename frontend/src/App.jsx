@@ -22,7 +22,7 @@ const NotFound      = lazy(() => import("./pages/NotFound/NotFound"));
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <Navbar />
       <div>
       <Suspense fallback={<div className="text-center mt-5">Loading…</div>}>
