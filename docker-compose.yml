@@ -30,6 +30,8 @@ services:
       DB_NAME: AlexandriaUnburnt
       JWT_SECRET: ${JWT_SECRET:-change_me_in_production}
       PORT: "8800"
+    volumes:
+      - ./frontend/dist:/app/frontend/dist
     depends_on:
       db:
         condition: service_healthy

@@ -1,8 +1,6 @@
 import axios from 'axios'
-import { API_BASE_URL } from '../config'
 
 const apiClient = axios.create({
-  baseURL: API_BASE_URL,
   headers: { 'Content-Type': 'application/json' },
 })
 
@@ -24,9 +22,8 @@ apiClient.interceptors.response.use(
       localStorage.removeItem('user')
       localStorage.removeItem('cart')
       // Redirect to login unless already there
-      const base = import.meta.env.BASE_URL || '/'
-      if (window.location.pathname !== `${base}login`) {
-        window.location.href = `${base}login`
+      if (window.location.pathname !== '/login') {
+        window.location.href = '/login'
       }
     }
     return Promise.reject(error)

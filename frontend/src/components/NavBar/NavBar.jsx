@@ -51,7 +51,7 @@ const Navbar = () => {
           {isAuthenticated ? (
             <>
               <span className="nav-user">{user?.name}</span>
-              <button className="nav-logout-btn" onClick={() => { logout(); window.location.href = import.meta.env.BASE_URL }}>
+              <button className="nav-logout-btn" onClick={() => { logout(); window.location.href = '/' }}>
                 <i className="bi bi-box-arrow-right"></i>
               </button>
             </>
