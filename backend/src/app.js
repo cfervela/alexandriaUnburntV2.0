@@ -29,10 +29,10 @@ app.use('/orders', orderRoutes)
 
 // Servir el frontend estático
 const path = require('path')
-const frontendDist = path.join(__dirname, '../../frontend/dist')
+const frontendDist = path.join(__dirname, '../frontend/dist')
 
 app.use(express.static(frontendDist))
-app.get('*', (_req, res) => {
+app.get('/{*path}', (_req, res) => {
   res.sendFile(path.join(frontendDist, 'index.html'))
 })
 
