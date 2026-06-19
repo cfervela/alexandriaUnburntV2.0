@@ -1,7 +1,9 @@
 const db = require('../config/db')
 
+const DISCOUNT_RATE = 0.10
+
 exports.checkout = (req, res) => {
-    const { items, total } = req.body
+    const { items } = req.body
     const userId = req.user.userId
 
     if (!items || !Array.isArray(items) || items.length === 0) {
@@ -29,6 +31,14 @@ exports.checkout = (req, res) => {
             }
         }
 
+        // Calculate totals server-side with discount
+        const discountedItems = items.map(item => ({
+            ...item,
+            discountedPrice: item.price * (1 - DISCOUNT_RATE),
+        }))
+        const subtotal = discountedItems.reduce((sum, item) => sum + item.discountedPrice * item.quantity, 0)
+        const total = Math.round(subtotal * 100) / 100
+
         // All stock checks passed — begin transaction
         db.beginTransaction((err) => {
             if (err) return res.status(500).json({ message: err.sqlMessage })
@@ -46,9 +56,9 @@ exports.checkout = (req, res) => {
                 let failed = false
 
                 // Insert each OrderItem and update stock
-                for (const item of items) {
+                for (const item of discountedItems) {
                     const itemQ = 'INSERT INTO OrderItem (orderId, isbn, quantity, price) VALUES (?, ?, ?, ?)'
-                    db.query(itemQ, [orderId, item.isbn, item.quantity, item.price], (err) => {
+                    db.query(itemQ, [orderId, item.isbn, item.quantity, item.discountedPrice], (err) => {
                         if (err && !failed) {
                             failed = true
                             return db.rollback(() => res.status(500).json({ message: err.sqlMessage }))
@@ -71,6 +81,7 @@ exports.checkout = (req, res) => {
                                     return res.status(201).json({
                                         message: 'Order placed successfully',
                                         orderId,
+                                        total,
                                     })
                                 })
                             }
