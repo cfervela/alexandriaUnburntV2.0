@@ -3,6 +3,7 @@ import { useCart } from "../../context/CartContext"
 import { useAuth } from "../../context/AuthContext"
 import { useNavigate } from "react-router"
 import apiClient from "../../services/apiClient"
+import { DISCOUNT_RATE } from "../../config"
 import "./Cart.css"
 
 const Cart = () => {
@@ -23,7 +24,7 @@ const Cart = () => {
         isbn: item.isbn,
         title: item.title,
         quantity: item.quantity,
-        price: item.price,
+        price: item.price * (1 - DISCOUNT_RATE),
       }))
 
       const res = await apiClient.post("/orders/checkout", {
@@ -102,7 +103,7 @@ const Cart = () => {
                 <div className="cart-item-info">
                   <h3 className="cart-item-title">{item.title}</h3>
                   <p className="cart-item-author">{item.author}</p>
-                  <p className="cart-item-price">${Number(item.price).toFixed(2)} each</p>
+                  <p className="cart-item-price">${(item.price * (1 - DISCOUNT_RATE)).toFixed(2)} each</p>
                 </div>
                 <div className="cart-item-quantity">
                   <button
@@ -121,7 +122,7 @@ const Cart = () => {
                   </button>
                 </div>
                 <div className="cart-item-subtotal">
-                  ${(item.price * item.quantity).toFixed(2)}
+                  ${(item.price * (1 - DISCOUNT_RATE) * item.quantity).toFixed(2)}
                 </div>
                 <button
                   className="cart-item-remove"
