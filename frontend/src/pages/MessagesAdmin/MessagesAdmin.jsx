@@ -47,7 +47,7 @@ const MessagesAdmin = () => {
 
   return (
     <div className="MessagesAdmin">
-      <h1 className="Title">Contact Messages</h1>
+      <h1 className="messages-heading">Contact Messages</h1>
 
       {successMsg && (
         <div className="msg-success">

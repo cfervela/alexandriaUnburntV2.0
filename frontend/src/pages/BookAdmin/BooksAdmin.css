@@ -1,7 +1,3 @@
-body{
-    background-color: #c0c7da;
-}
-
 .Books {
     padding: 30px;
     padding-top: 0;
@@ -155,7 +151,7 @@ body{
     font-size: 0.9rem;
 }
 
-.Title {
+.books-heading {
     color: #F6724B;
     font-weight: bold;
     position: relative;

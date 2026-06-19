@@ -1,7 +1,3 @@
-body{
-    background-color: #c0c7da;
-}
-
 /* ── Page layout ── */
 .Users {
     padding: 30px;
@@ -262,7 +258,7 @@ body{
     transform: none;
 }
 
-.Title {
+.users-heading {
     color: #F6724B;
     font-weight: bold;
     position: relative;

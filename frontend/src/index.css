@@ -3,3 +3,11 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+:root {
+    --bs-body-bg: #c0c7da;
+}
+
+body {
+    background-color: #c0c7da;
+}

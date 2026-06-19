@@ -1,7 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router";
 import { lazy, Suspense } from "react";
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'bootstrap-icons/font/bootstrap-icons.css';
 import Navbar from "./components/NavBar/NavBar";
 import ProtectedRoute from "./components/ProtectedRoute";
 

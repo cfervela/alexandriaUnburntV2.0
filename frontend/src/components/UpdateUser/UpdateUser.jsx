@@ -34,7 +34,7 @@ const UpdateUser = () => {
     return (
         <div style={{ minHeight: '100vh', backgroundColor: '#2B3349', padding: '2rem' }}>
             <div className="Books">
-                <h1 className="Title">Edit User</h1>
+                <h1 className="users-heading">Edit User</h1>
                 <form className="update-form" onSubmit={handleSubmit}>
                     <label>Name
                         <input name="name" value={user.name} onChange={handleChange} required />

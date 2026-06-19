@@ -56,7 +56,7 @@ const BooksAdmin = () => {
 
     return (
         <div className="Books">
-            <h1 className='Title' >Current Stock</h1>
+            <h1 className='books-heading' >Current Stock</h1>
             {successMsg && (
                 <div className="alert-success">
                     <i className="bi bi-check-circle me-2"></i>{successMsg}

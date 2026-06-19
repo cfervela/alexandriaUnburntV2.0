@@ -70,7 +70,7 @@ const UsersAdmin = () => {
 
     return (
         <div className="Users">
-            <h1 className='Title'>Registerd Accounts</h1>
+            <h1 className='users-heading'>Registerd Accounts</h1>
             {successMsg && (
                 <div className="alert-success">
                     <i className="bi bi-check-circle me-2"></i>{successMsg}
