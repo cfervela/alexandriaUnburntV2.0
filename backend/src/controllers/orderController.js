@@ -2,6 +2,32 @@ const db = require('../config/db')
 
 const DISCOUNT_RATE = 0.10
 
+exports.preview = (req, res) => {
+    const { items } = req.body
+
+    if (!items || !Array.isArray(items) || items.length === 0) {
+        return res.status(400).json({ message: 'Cart is empty' })
+    }
+
+    const discountedItems = items.map(item => ({
+        ...item,
+        discountedPrice: +(item.price * (1 - DISCOUNT_RATE)).toFixed(2),
+    }))
+
+    const discountedTotal = discountedItems.reduce((sum, item) => sum + item.discountedPrice * item.quantity, 0)
+    const originalTotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
+    const discountAmount = +(originalTotal - discountedTotal).toFixed(2)
+    const total = Math.round(discountedTotal * 100) / 100
+
+    return res.json({
+        items: discountedItems,
+        subtotal: +originalTotal.toFixed(2),
+        discountAmount,
+        total,
+        discountRate: DISCOUNT_RATE,
+    })
+}
+
 exports.checkout = (req, res) => {
     const { items } = req.body
     const userId = req.user.userId

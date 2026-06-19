@@ -4,6 +4,7 @@ const { authenticate } = require('../middleware/authMiddleware')
 
 const router = Router()
 
+router.post('/preview', orderController.preview)
 router.post('/checkout', authenticate, orderController.checkout)
 
 module.exports = router

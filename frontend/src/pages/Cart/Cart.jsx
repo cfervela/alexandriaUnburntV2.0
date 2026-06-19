@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useCart } from "../../context/CartContext"
 import { useAuth } from "../../context/AuthContext"
 import { useNavigate } from "react-router"
@@ -6,12 +6,39 @@ import apiClient from "../../services/apiClient"
 import "./Cart.css"
 
 const Cart = () => {
-  const { items, removeFromCart, updateQuantity, clearCart, totalItems, totalPrice, discountRate } = useCart()
+  const { items, removeFromCart, updateQuantity, clearCart, totalItems } = useCart()
   const { isAuthenticated } = useAuth()
   const navigate = useNavigate()
   const [checkingOut, setCheckingOut] = useState(false)
   const [successMsg, setSuccessMsg] = useState("")
   const [errorMsg, setErrorMsg] = useState("")
+  const [preview, setPreview] = useState(null)
+
+  useEffect(() => {
+    if (items.length === 0) {
+      setPreview(null)
+      return
+    }
+
+    let ignore = false
+
+    const payload = items.map(item => ({
+      isbn: item.isbn,
+      title: item.title,
+      author: item.author,
+      quantity: item.quantity,
+      price: item.price,
+    }))
+
+    apiClient.post("/orders/preview", { items: payload })
+      .then(res => { if (!ignore) setPreview(res.data) })
+      .catch(() => { if (!ignore) setPreview(null) })
+
+    return () => { ignore = true }
+  }, [items])
+
+  const previewItems = preview?.items || items
+  const total = preview?.total ?? 0
 
   const handleCheckout = async () => {
     setCheckingOut(true)
@@ -83,7 +110,7 @@ const Cart = () => {
       {items.length > 0 && (
         <>
           <div className="cart-items">
-            {items.map((item) => (
+            {previewItems.map((item) => (
               <div className="cart-item" key={item.isbn}>
                 <div className="cart-item-img">
                   <img
@@ -101,7 +128,9 @@ const Cart = () => {
                 <div className="cart-item-info">
                   <h3 className="cart-item-title">{item.title}</h3>
                   <p className="cart-item-author">{item.author}</p>
-                  <p className="cart-item-price">${(item.price * (1 - discountRate)).toFixed(2)} each</p>
+                  <p className="cart-item-price">
+                    ${(item.discountedPrice ?? item.price).toFixed(2)} each
+                  </p>
                 </div>
                 <div className="cart-item-quantity">
                   <button
@@ -120,7 +149,7 @@ const Cart = () => {
                   </button>
                 </div>
                 <div className="cart-item-subtotal">
-                  ${(item.price * (1 - discountRate) * item.quantity).toFixed(2)}
+                  ${((item.discountedPrice ?? item.price) * item.quantity).toFixed(2)}
                 </div>
                 <button
                   className="cart-item-remove"
@@ -139,7 +168,7 @@ const Cart = () => {
             </div>
             <div className="cart-summary-info">
               <span className="cart-summary-label">Total:</span>
-              <span className="cart-summary-price">${totalPrice.toFixed(2)}</span>
+              <span className="cart-summary-price">${total.toFixed(2)}</span>
             </div>
             {isAuthenticated ? (
               <button

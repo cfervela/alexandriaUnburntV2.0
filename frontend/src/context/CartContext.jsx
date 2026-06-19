@@ -1,5 +1,4 @@
 import { createContext, useContext, useState, useEffect } from "react"
-import { DISCOUNT_RATE } from "../config"
 
 const CartContext = createContext()
 
@@ -47,9 +46,6 @@ export function CartProvider({ children }) {
   const clearCart = () => setItems([])
 
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0)
-  const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
-  const discountAmount = subtotal * DISCOUNT_RATE
-  const totalPrice = subtotal - discountAmount
 
   return (
     <CartContext.Provider
@@ -60,10 +56,6 @@ export function CartProvider({ children }) {
         updateQuantity,
         clearCart,
         totalItems,
-        totalPrice,
-        subtotal,
-        discountAmount,
-        discountRate: DISCOUNT_RATE,
       }}
     >
       {children}
