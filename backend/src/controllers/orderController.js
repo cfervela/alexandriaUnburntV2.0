@@ -11,10 +11,10 @@ exports.preview = (req, res) => {
 
     const discountedItems = items.map(item => ({
         ...item,
-        discountedPrice: +(item.price * (1 - DISCOUNT_RATE)).toFixed(2),
+        discount: +(item.price * (1 - DISCOUNT_RATE)).toFixed(2),
     }))
 
-    const discountedTotal = discountedItems.reduce((sum, item) => sum + item.discountedPrice * item.quantity, 0)
+    const discountedTotal = discountedItems.reduce((sum, item) => sum + item.discount * item.quantity, 0)
     const originalTotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
     const discountAmount = +(originalTotal - discountedTotal).toFixed(2)
     const total = Math.round(discountedTotal * 100) / 100
@@ -60,9 +60,9 @@ exports.checkout = (req, res) => {
         // Calculate totals server-side with discount
         const discountedItems = items.map(item => ({
             ...item,
-            discountedPrice: item.price * (1 - DISCOUNT_RATE),
+            discount: item.price * (1 - DISCOUNT_RATE),
         }))
-        const subtotal = discountedItems.reduce((sum, item) => sum + item.discountedPrice * item.quantity, 0)
+        const subtotal = discountedItems.reduce((sum, item) => sum + item.discount * item.quantity, 0)
         const total = Math.round(subtotal * 100) / 100
 
         // All stock checks passed — begin transaction
@@ -84,7 +84,7 @@ exports.checkout = (req, res) => {
                 // Insert each OrderItem and update stock
                 for (const item of discountedItems) {
                     const itemQ = 'INSERT INTO OrderItem (orderId, isbn, quantity, price) VALUES (?, ?, ?, ?)'
-                    db.query(itemQ, [orderId, item.isbn, item.quantity, item.discountedPrice], (err) => {
+                    db.query(itemQ, [orderId, item.isbn, item.quantity, item.discount], (err) => {
                         if (err && !failed) {
                             failed = true
                             return db.rollback(() => res.status(500).json({ message: err.sqlMessage }))
