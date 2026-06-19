@@ -12,7 +12,7 @@ const orderRoutes = require('./routes/orderRoutes')
 const app = express()
 
 app.use(cors({
-  origin: '*',
+  origin: 'https://cfervela.github.io',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }))
